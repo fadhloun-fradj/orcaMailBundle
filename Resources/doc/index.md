@@ -12,7 +12,6 @@ Ajouter au `composer.json` les lignes suivantes:
 
 ```json
 "require" : {
-...
         "Orcaformation" : "dev-master"
     },
 "repositories" : [{
@@ -62,26 +61,13 @@ orca_mail:
 
 ### Configuration
 
-Pour tracker les reqêtes émisent il faut ajouter aux services du projet la configuration suivante :
+Merci de saisir un mail d'admin pour recevoir les emails des exceptions :
+Merci de saisir le nom du projet :
 
 ```yaml
-#app/conﬁg/services.yml
-services:
-    Orca\UserLogBundle\EventListener\ResponseListener:
-            class: Orca\UserLogBundle\EventListener\ResponseListener
-            arguments:  ['@service_container']
-            tags:
-                - { name: kernel.event_listener, event: kernel.response, channel: security }
-```
+#Util/Constants.php
 
-Pour tracker les login et les logout il faut ajouter les lignes suivantes au niveau du pare-feu de securité
+    const MAIL_ADMIN = 'mbouasraf@orcaformation.fr';
+    const PROJET = 'BENETEAU R7';
 
-```yaml
-#app/config/security.yml
-firewalls:
-        secured_area:
-            form_login:
-                success_handler: orca_user_log.component.authentication.handler.login_success_handler
-            logout:
-                success_handler: orca_user_log.component.authentication.handler.logout_success_handler      # redirect, no_redirect, redirect_without_path
 ```
