@@ -7,6 +7,7 @@ use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblMailType;
 use Orca\MailBundle\Entity\MailTblRegle;
 use Orca\MailBundle\Entity\MailTblVue;
+use Orca\MailBundle\Utils\Constants;
 
 class TblMailService
 {
@@ -46,13 +47,25 @@ class TblMailService
         if(!$exception)
             $this->sendMail($mailer,$mail,$vueData);
         else{
+
             $msg = $msgError.' regle : '.$regle->getId().' '.$regle->getRegleLib().', vueData : ';
             foreach($vueData as $champs => $data)
             {
                 $msg .= $champs.' : '.$data.' ';
             }
             $message = new \Swift_Message();
-            $message->setBody($msg)->setFrom($vueData['expediteur'])->setTo('mbouasraf@orcaformation.fr')->setSubject('Exception erreur envoi mail');
+            if (isset($vueData['expediteur']))
+            {
+                $message->setFrom($vueData['expediteur']);
+            }
+            else
+            {
+                $message->setFrom($mail->getMailExpediteur());
+            }
+            $message->setBody($msg,'text/html');
+            $message->setTo(Constants::MAIL_ADMIN);
+            $message->setSubject('Exception erreur envoi mail ['.Constants::PROJET.']');
+
             $mailer->send($message);
         }
     }
@@ -73,7 +86,7 @@ class TblMailService
         $mail->setMailRegle($regle);
         $mail->setMailVueData(json_encode($vueData));
         $mail->setMailType($type);
-        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : 'mbouasraf@orcaformation.fr');
+        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : Constants::MAIL_ADMIN);
 
         $objetTags = $type->getCcTags();
 
