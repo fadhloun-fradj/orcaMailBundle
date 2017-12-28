@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mailtblvues list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Vuelib</th>
+                <th>Vuesqlpropel</th>
+                <th>Vuepostsqlraw</th>
+                <th>Vuesqlraw</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mailTblVue in mailTblVues %}
+            <tr>
+                <td><a href="{{ path('mailtblvue_show', { 'id': mailTblVue.id }) }}">{{ mailTblVue.id }}</a></td>
+                <td>{{ mailTblVue.vueLib }}</td>
+                <td>{{ mailTblVue.vueSqlPropel }}</td>
+                <td>{{ mailTblVue.vuePostSqlRaw }}</td>
+                <td>{{ mailTblVue.vueSqlRaw }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('mailtblvue_show', { 'id': mailTblVue.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('mailtblvue_edit', { 'id': mailTblVue.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblvue_new') }}">Create a new mailTblVue</a>
+        </li>
+    </ul>
+{% endblock %}

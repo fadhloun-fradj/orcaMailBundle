@@ -1,0 +1,18 @@
+orca_mail_homepage:
+    path:     /
+    defaults: { _controller: OrcaMailBundle:Default:index }
+orca_mail_mail_tbl_mail:
+    resource: "@OrcaMailBundle/Controller/MailTblMailController.php"
+    type:     annotation
+
+orca_mail_mail_tbl_regle_frequence:
+    resource: "@OrcaMailBundle/Controller/MailTblRegleFrequenceController.php"
+    type:     annotation
+
+orca_mail_mail_tbl_mail_type:
+    resource: "@OrcaMailBundle/Controller/MailTblMailTypeController.php"
+    type:     annotation
+
+orca_mail_mail_tbl_vue:
+    resource: "@OrcaMailBundle/Controller/MailTblVueController.php"
+    type:     annotation

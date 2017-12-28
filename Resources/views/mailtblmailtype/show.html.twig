@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mailtblmailtype</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mailTblMailType.id }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypelib</th>
+                <td>{{ mailTblMailType.mailTypeLib }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypeobjet</th>
+                <td>{{ mailTblMailType.mailTypeObjet }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypeexpediteur</th>
+                <td>{{ mailTblMailType.mailTypeExpediteur }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypecc</th>
+                <td>{{ mailTblMailType.mailTypeCc }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypebcc</th>
+                <td>{{ mailTblMailType.mailTypeBcc }}</td>
+            </tr>
+            <tr>
+                <th>Mailtypeactif</th>
+                <td>{% if mailTblMailType.mailTypeActif %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Mailtypebody</th>
+                <td>{{ mailTblMailType.mailTypeBody }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblmailtype_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('mailtblmailtype_edit', { 'id': mailTblMailType.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

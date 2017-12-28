@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mailtblvue</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mailTblVue.id }}</td>
+            </tr>
+            <tr>
+                <th>Vuelib</th>
+                <td>{{ mailTblVue.vueLib }}</td>
+            </tr>
+            <tr>
+                <th>Vuesqlpropel</th>
+                <td>{{ mailTblVue.vueSqlPropel }}</td>
+            </tr>
+            <tr>
+                <th>Vuepostsqlraw</th>
+                <td>{{ mailTblVue.vuePostSqlRaw }}</td>
+            </tr>
+            <tr>
+                <th>Vuesqlraw</th>
+                <td>{{ mailTblVue.vueSqlRaw }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblvue_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('mailtblvue_edit', { 'id': mailTblVue.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

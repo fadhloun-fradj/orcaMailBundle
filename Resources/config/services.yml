@@ -1,0 +1,51 @@
+services:
+#    orca_mail.example:
+#        class: Orca\MailBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    orca_mail.admin.mail_tbl_vue:
+        class: Orca\MailBundle\Admin\MailTblVueAdmin
+        arguments: [~, Orca\MailBundle\Entity\MailTblVue, OrcaMailBundle:MailTblVueAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mail vue de données }
+        public: true
+
+    orca_mail.admin.mail_tbl_mail_type:
+        class: Orca\MailBundle\Admin\MailTblMailTypeAdmin
+        arguments: [~, Orca\MailBundle\Entity\MailTblMailType, OrcaMailBundle:MailTblMailTypeAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mail Type }
+        public: true
+
+    orca_mail.admin.mail_tbl_regle:
+        class: Orca\MailBundle\Admin\MailTblRegleAdmin
+        arguments: [~, Orca\MailBundle\Entity\MailTblRegle, OrcaMailBundle:MailTblRegleAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mail Regle }
+        public: true
+
+    orca_mail.admin.mail_tbl_regle_frequence:
+        class: Orca\MailBundle\Admin\MailTblRegleFrequenceAdmin
+        arguments: [~, Orca\MailBundle\Entity\MailTblRegleFrequence, OrcaMailBundle:MailTblRegleFrequenceAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mail Regle Fréquence }
+        public: true
+
+    orca_mail.admin.mail_tbl_mail:
+        class: Orca\MailBundle\Admin\MailTblMailAdmin
+        arguments: [~, Orca\MailBundle\Entity\MailTblMail, OrcaMailBundle:MailTblMailAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mail Histo }
+        public: true
+
+
+    app.regle_service:
+        class: Orca\MailBundle\Service\RegleService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    app.tbl_mail_service:
+        class: Orca\MailBundle\Service\TblMailService
+        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%"]
+
+    app.mail_service:
+        class: Orca\MailBundle\Service\MailService
+        arguments: ["@doctrine.orm.entity_manager","@app.regle_service","@app.tbl_mail_service","@mailer","%kernel.root_dir%"]

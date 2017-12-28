@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mailtblmailtypes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mailtypelib</th>
+                <th>Mailtypeobjet</th>
+                <th>Mailtypeexpediteur</th>
+                <th>Mailtypecc</th>
+                <th>Mailtypebcc</th>
+                <th>Mailtypeactif</th>
+                <th>Mailtypebody</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mailTblMailType in mailTblMailTypes %}
+            <tr>
+                <td><a href="{{ path('mailtblmailtype_show', { 'id': mailTblMailType.id }) }}">{{ mailTblMailType.id }}</a></td>
+                <td>{{ mailTblMailType.mailTypeLib }}</td>
+                <td>{{ mailTblMailType.mailTypeObjet }}</td>
+                <td>{{ mailTblMailType.mailTypeExpediteur }}</td>
+                <td>{{ mailTblMailType.mailTypeCc }}</td>
+                <td>{{ mailTblMailType.mailTypeBcc }}</td>
+                <td>{% if mailTblMailType.mailTypeActif %}Yes{% else %}No{% endif %}</td>
+                <td>{{ mailTblMailType.mailTypeBody }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('mailtblmailtype_show', { 'id': mailTblMailType.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('mailtblmailtype_edit', { 'id': mailTblMailType.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblmailtype_new') }}">Create a new mailTblMailType</a>
+        </li>
+    </ul>
+{% endblock %}
