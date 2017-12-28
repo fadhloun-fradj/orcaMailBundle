@@ -61,8 +61,7 @@ orca_mail:
 
 ### Configuration
 
-Merci de saisir un mail d'admin pour recevoir les emails des exceptions :
-Merci de saisir le nom du projet :
+Merci de saisir un mail d'admin pour recevoir les emails des exceptions/ + le nom du projet :
 
 ```php
 #Util/Constants.php
