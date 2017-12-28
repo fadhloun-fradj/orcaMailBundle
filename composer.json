@@ -1,0 +1,24 @@
+{
+  "name": "Orcaformation",
+  "type": "symfony-bundle",
+  "description": "Bundle pour la gestion des emails",
+  "keywords": [ "mail", "orca" ],
+  "homepage": "https://github.com/orcaformation/orcaMailBundle",
+  "license": "Reserved",
+  "authors": [
+    {
+      "name": "BOUASRAF Mohamed",
+      "email": "mbouasraf@orcaformation.fr"
+    }
+  ],
+  "autoload" : {
+        "psr-0" : {
+            "Orca\\MailBundle" : ""
+        }
+    },  
+  "target-dir" : "Orca/MailBundle",
+  "require": {
+	"sonata-project/admin-bundle": "^3.13",
+	"sonata-project/doctrine-orm-admin-bundle": "^3.1"
+  }
+}
