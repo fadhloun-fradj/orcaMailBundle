@@ -64,7 +64,7 @@ orca_mail:
 Merci de saisir un mail d'admin pour recevoir les emails des exceptions :
 Merci de saisir le nom du projet :
 
-```yaml
+```php
 #Util/Constants.php
 
     const MAIL_ADMIN = 'mbouasraf@orcaformation.fr';
