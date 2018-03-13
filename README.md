@@ -5,9 +5,6 @@ Symfony 3x bundle pour la gestion des emails.
 Introduction
 ------------
 
-Ce bundle requiert l'installation des bundles : 
-- [Sonata Admin](https://github.com/sonata-project/SonataAdminBundle)
-
 Ce bundle à pour gérer : 
 - L'envoi des emails.
 - Gérer les excepions des email invalid.
