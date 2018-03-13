@@ -13,3 +13,7 @@ orca_mail_mail_tbl_mail_type:
 orca_mail_mail_tbl_vue:
     resource: "@OrcaMailBundle/Controller/MailTblVueController.php"
     type:     annotation
+    
+orca_mail_mail_tbl_regle:
+    resource: "@OrcaMailBundle/Controller/MailTblRegleController.php"
+    type:     annotation
