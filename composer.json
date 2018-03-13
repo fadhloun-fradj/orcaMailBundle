@@ -1,5 +1,5 @@
 {
-  "name": "Orcaformation",
+  "name": "orca/mailbundle",
   "type": "symfony-bundle",
   "description": "Bundle pour la gestion des emails",
   "keywords": [ "mail", "orca" ],
