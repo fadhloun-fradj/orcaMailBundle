@@ -20,7 +20,7 @@ Ajouter au `composer.json` les lignes suivantes:
     }],    
 ```
 et executer la commande:
-`composer update "Orcaformation" `
+`composer update "orca/mailbundle" `
 
 ### Ajouter ce bundle au kernel
 
@@ -36,20 +36,10 @@ public function registerBundles()
     );
 }
 ```
-### Ajouter au config.yml
-
-Pour activer les extensions de doctrine ajouter au `config.yml` les lignes suivantes :
-
-```yaml
-#app/conﬁg/config.yml
-sonata_admin:
-    templates:
-        edit:                OrcaMailBundle:CRUD:edit.html.twig
-```
 
 ### Ajouter au routing.yml
 
-Pour afficher la page d'administration ajouter au `routing.yml` les lignes suivantes :
+Ajouter au `routing.yml` les lignes suivantes :
  
 ```yaml
 #app/conﬁg/routing.yml
