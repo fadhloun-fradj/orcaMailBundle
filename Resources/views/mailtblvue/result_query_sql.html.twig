@@ -1,0 +1,57 @@
+{% extends 'BackendAppBundle::base.html.twig' %}
+
+{% block menu %}
+    {{ render(controller('OrcaMenuBundle:Default:menu')) }}
+{% endblock %}
+{% block leftBlock %}
+{% endblock %}
+{% block contentTitle %}Modification mail vue{% endblock %}
+{% block colListeNumber %}col-md-12{% endblock %}
+{% block contentListe %}
+SQL : {{ sql }}
+<br>
+Nombre : {{ results|length }}
+<table class="table table-hover">
+    {% for item in results %}
+        <tr>
+            <td>{{ item.user_id }}</td>
+            <td>{{ item.destinataire }}</td>
+            <td>{{ item.nomVendeur }}</td>
+            <td>{{ item.prenomVendeur }}</td>
+            <td>{{ item.loginVendeur }}</td>
+            <td>{{ item.mdpVendeur }}</td>
+            <td>{{ item.pj }}</td>
+            <td>{{ item.pj2 }}</td>
+        </tr>
+    {% endfor %}
+</table>
+    <a href="{{ path('mailtblvue_index') }}" class="btn"><i class="fa fa-list-alt"> Retour à la liste</i></a>
+
+{% endblock %}
+
+{% block mystyle %}
+    <style>
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+        ul.list_action li{
+            list-style-type: none;
+            display: inline;
+            margin-right: 10px;
+        }
+        .list_action{
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+{% block myscript %}
+    <script>
+        var path_url = 'mailtblvue_index';
+
+        $("#"+path_url).addClass('active');
+        $("#"+path_url).parent().parent().addClass('active');
+    </script>
+{% endblock %}

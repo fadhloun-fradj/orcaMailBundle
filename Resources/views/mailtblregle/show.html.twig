@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mailtblregle</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mailTblRegle.id }}</td>
+            </tr>
+            <tr>
+                <th>Reglelib</th>
+                <td>{{ mailTblRegle.regleLib }}</td>
+            </tr>
+            <tr>
+                <th>Regleheure</th>
+                <td>{% if mailTblRegle.regleHeure %}{{ mailTblRegle.regleHeure|date('H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Regleactif</th>
+                <td>{% if mailTblRegle.regleActif %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Regledateenvoi</th>
+                <td>{{ mailTblRegle.regleDateEnvoi }}</td>
+            </tr>
+            <tr>
+                <th>Reglerenvoi</th>
+                <td>{% if mailTblRegle.regleRenvoi %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblregle_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('mailtblregle_edit', { 'id': mailTblRegle.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

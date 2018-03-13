@@ -1,0 +1,70 @@
+{% extends 'BackendAppBundle::base.html.twig' %}
+
+{% block menu %}
+    {{ render(controller('OrcaMenuBundle:Default:menu')) }}
+{% endblock %}
+{% block leftBlock %}
+{% endblock %}
+{% block contentTitle %}Mail Regle{% endblock %}
+{% block colListeNumber %}col-md-12{% endblock %}
+{% block contentListe %}
+    {#<h1>Mailtblregles list</h1>#}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reglelib</th>
+                <th>Vue</th>
+                <th>Mail type</th>
+                <th>Regleheure</th>
+                <th>Regle frequence</th>
+                <th>Regleactif</th>
+                <th>Regledateenvoi</th>
+                <th>Reglerenvoi</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mailTblRegle in mailTblRegles %}
+            <tr>
+                <td><a href="{{ path('mailtblregle_show', { 'id': mailTblRegle.id }) }}">{{ mailTblRegle.id }}</a></td>
+                <td>{{ mailTblRegle.regleLib }}</td>
+                <td>{{ mailTblRegle.vue.id }}</td>
+                <td>{{ mailTblRegle.mailType.id }}</td>
+                {#<td>{{ mailTblRegle.regleLib }}</td>#}
+                <td>{% if mailTblRegle.regleHeure %}{{ mailTblRegle.regleHeure|date('H:i:s') }}{% endif %}</td>
+                <td>{{ mailTblRegle.regleFrequence.id }}</td>
+                <td>{% if mailTblRegle.regleActif %}<i class="fa fa-check"></i> {% else %}<i class="fa fa-remove"></i>{% endif %}</td>
+                <td>{{ mailTblRegle.regleDateEnvoi|date('d M Y H:i') }}</td>
+                <td>{% if mailTblRegle.regleRenvoi %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-remove"></i>{% endif %}</td>
+                <td>
+                    <a href="{{ path('mailtblregle_edit', { 'id': mailTblRegle.id }) }}"><i class="fa fa-pencil"></i> Modifier</a><br>
+                    <a href="#"><i class="fa fa-remove red"></i> Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('mailtblregle_new') }}"><i class="fa fa-plus green"></i> Nouveau</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block mystyle %}
+    <style>
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+    </style>
+{% endblock %}
+
+{#{% block myscript %}#}
+    {##}
+{#{% endblock %}#}
