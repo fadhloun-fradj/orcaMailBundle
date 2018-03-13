@@ -12,7 +12,7 @@ Ajouter au `composer.json` les lignes suivantes:
 
 ```json
 "require" : {
-        "Orcaformation" : "dev-master"
+        "orca/mailbundle" : "dev-master"
     },
 "repositories" : [{
         "type" : "vcs",
