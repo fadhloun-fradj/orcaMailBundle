@@ -107,7 +107,10 @@ class TblMailService
 
         $mail->setMailBcc($type->getMailTypeBcc());
 
-        $mail->setMailDestinataire($vueData['destinataire']);
+        // Mail dynamique
+//        $mail->setMailDestinataire($vueData['destinataire']);
+        // Mail Statique
+        $mail->setMailDestinataire('admin.beneteau@orcaformation.fr');
 
         $objetTags = $type->getObjetTags();
 

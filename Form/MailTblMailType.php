@@ -13,7 +13,16 @@ class MailTblMailType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mailObject')->add('mailExpediteur')->add('mailDestinataire')->add('mailCc')->add('mailBcc')->add('mailBody')->add('mailVueData')->add('createdAt')->add('updatedAt')->add('mailType')->add('mailRegle');
+        $builder
+            ->add('mailObject')
+            ->add('mailExpediteur')
+            ->add('mailDestinataire')
+            ->add('mailCc')
+            ->add('mailBcc')
+            ->add('mailBody')
+            ->add('mailVueData')
+            ->add('createdAt')
+            ->add('updatedAt')->add('mailType')->add('mailRegle');
     }/**
      * {@inheritdoc}
      */

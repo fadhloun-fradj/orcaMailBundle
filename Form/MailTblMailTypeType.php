@@ -3,6 +3,7 @@
 namespace Orca\MailBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,35 @@ class MailTblMailTypeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mailTypeLib')->add('mailTypeObjet')->add('mailTypeExpediteur')->add('mailTypeCc')->add('mailTypeBcc')->add('mailTypeActif')->add('mailTypeBody');
+        $builder
+            ->add('mailTypeLib',null,array(
+                'label'=>'Label',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailTypeObjet',null,array(
+                'label'=>'Objet',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailTypeExpediteur',null,array(
+                'label'=>'Expediteur',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailTypeCc',null,array(
+                'label'=>'CC',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailTypeBcc',null,array(
+                'label'=>'BCC',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailTypeActif',null,array(
+                'label'=>'Actif'
+            ))
+            ->add('mailTypeBody',TextareaType::class,array(
+                'attr'=>array('class'=>'tinymce form-control','rows'=>10),
+                'label'=>'Contenu'
+            ))
+        ;
     }/**
      * {@inheritdoc}
      */

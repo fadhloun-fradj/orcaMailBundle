@@ -1,21 +1,54 @@
-{% extends 'base.html.twig' %}
+{% extends 'BackendAppBundle::base.html.twig' %}
 
-{% block body %}
-    <h1>Mailtblvue edit</h1>
+{% block menu %}
+    {{ render(controller('OrcaMenuBundle:Default:menu')) }}
+{% endblock %}
+{% block leftBlock %}
+{% endblock %}
+{% block contentTitle %}Modification mail vue{% endblock %}
+{% block colListeNumber %}col-md-12{% endblock %}
+{% block contentListe %}
+    {#<h1>Mailtblvue edit</h1>#}
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+
+    <ul class="list_action">
+        <li><a href="#"><i class="fa fa-remove red"></i> Supprimer</a></li>
+        <li><a href="{{ path('mailtblvue_index') }}"><i class="fa fa-list-alt"></i> Retour à la liste</a></li>
+        <li> <input type="submit" class="btn btn-default" value="Mettre à jour" /></li>
+        <li><a href="{{ path('getResultSQL',{'sql':mailTblVue.vueSqlRaw}) }}" target="_blank"><i class="fa fa-list-alt"></i> Voir résultat de la sélection</a></li>
+    </ul>
+
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('mailtblvue_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+{% endblock %}
+
+{% block mystyle %}
+    <style>
+        .red{
+            color: red;
+        }
+        .green{
+            color: green;
+        }
+        ul.list_action li{
+            list-style-type: none;
+            display: inline;
+            margin-right: 10px;
+        }
+        .list_action{
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block myscript %}
+    <script>
+        var path_url = 'mailtblvue_index';
+
+        $("#"+path_url).addClass('active');
+        $("#"+path_url).parent().parent().addClass('active');
+    </script>
 {% endblock %}

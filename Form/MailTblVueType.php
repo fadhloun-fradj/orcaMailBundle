@@ -3,6 +3,7 @@
 namespace Orca\MailBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +15,19 @@ class MailTblVueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('vueLib')
-            ->add('vueSqlPropel')
-            ->add('vuePostSqlRaw')
-            ->add('vueSqlRaw')
+            ->add('vueLib',null,array(
+                'label'=>'Libellé de la requête',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('vueSqlRaw',TextareaType::class,array(
+                'attr'=>array('class'=>'tinymce form-control','rows'=>10),
+                'label'=>'Requête SQL'
+            ))
+            ->add('vuePostSqlRaw',TextareaType::class,array(
+                'attr'=>array('class'=>'tinymce form-control','rows'=>10),
+                'label'=>'Requête SQL (post traitement)'
+            ))
+//            ->add('vueSqlPropel')
         ;
     }/**
      * {@inheritdoc}

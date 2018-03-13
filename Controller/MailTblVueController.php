@@ -15,6 +15,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 class MailTblVueController extends Controller
 {
     /**
+     * @Route("/getResultSQL", name="getResultSQL")
+     */
+    public function getResultSqlAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $query = $request->get('sql');
+        $conn = $em->getConnection();
+        $statement = $conn->prepare($query);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $this->render('OrcaMailBundle:mailtblvue:result_query_sql.html.twig', array(
+            'results' => $results,
+            'sql' => $query,
+        ));
+    }
+
+    /**
      * Lists all mailTblVue entities.
      *
      * @Route("/", name="mailtblvue_index")
