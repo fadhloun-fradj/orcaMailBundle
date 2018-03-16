@@ -13,7 +13,40 @@ class MailTblRegleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('regleLib')->add('regleHeure')->add('regleActif')->add('regleDateEnvoi')->add('regleRenvoi')->add('regleFrequence')->add('vue')->add('mailType');
+        $builder
+            ->add('regleLib',null,array(
+                'label'=>'Regle lib',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('vue',null,array(
+                'label'=>'Vue',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('mailType',null,array(
+                'label'=>'Mail type',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('regleHeure',null,array(
+                'label'=>'Regle heure',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('regleFrequence',null,array(
+                'label'=>'Regle frequence',
+                'attr'=>array('class'=>'form-control')
+            ))
+            ->add('regleActif',null,array(
+                'label'=>'Regle actif',
+                'attr'=>array()
+            ))
+            ->add('regleDateEnvoi',null,array(
+                'label'=>'Regle date envoi',
+                'attr'=>array('class'=>'')
+            ))
+            ->add('regleRenvoi',null,array(
+                'label'=>'Regle renvoi',
+                'attr'=>array()
+            ))
+        ;
     }
     
     /**

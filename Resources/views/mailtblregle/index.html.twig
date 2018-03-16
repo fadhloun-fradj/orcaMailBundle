@@ -28,7 +28,7 @@
         <tbody>
         {% for mailTblRegle in mailTblRegles %}
             <tr>
-                <td><a href="{{ path('mailtblregle_show', { 'id': mailTblRegle.id }) }}">{{ mailTblRegle.id }}</a></td>
+                <td><a href="{{ path('mailtblregle_edit', { 'id': mailTblRegle.id }) }}">{{ mailTblRegle.id }}</a></td>
                 <td>{{ mailTblRegle.regleLib }}</td>
                 <td>{{ mailTblRegle.vue.id }}</td>
                 <td>{{ mailTblRegle.mailType.id }}</td>
