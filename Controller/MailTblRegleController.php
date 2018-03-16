@@ -2,6 +2,7 @@
 
 namespace Orca\MailBundle\Controller;
 
+use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblRegle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,6 +15,31 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class MailTblRegleController extends Controller
 {
+
+    /**
+     * @Route("/getPreview", name="getPreview")
+     * @Method("GET")
+     */
+    public function getPreviewAction(Request $request)
+    {
+        $id = $request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $regle = $em->getRepository('OrcaMailBundle:MailTblRegle')->find($id);
+        $conn = $em->getConnection();
+        $statement = $conn->prepare($regle->getVue()->getVueSqlRaw());
+        $statement->execute();
+        $datas = $statement->fetchAll();
+//var_dump($datas);die;
+        $mailPreview = new MailTblMail();
+        $mailPreview->setMailRegle($regle);
+        $this->get('app.tbl_mail_service')->initMail($mailPreview,$regle,$datas[0],false,false);
+
+        return $this->render('OrcaMailBundle:mailtblregle:preview.html.twig', array(
+            'mailPreview' => $mailPreview,
+//            'sql' => $query,
+        ));
+    }
+
     /**
      * Lists all mailTblRegle entities.
      *

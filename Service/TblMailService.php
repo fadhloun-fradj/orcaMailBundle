@@ -69,7 +69,7 @@ class TblMailService
             $mailer->send($message);
         }
     }
-    public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false){
+    public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false,$save = true){
         $type = $regle->getMailType();
         if (!isset($vueData['user_id']))
         {
@@ -149,8 +149,12 @@ class TblMailService
         $body = str_replace($bodyTags[0], $replaceBodyTags, $body);
         $mail->setMailBody($body);
 
-        $this->em->persist($mail);
-        $this->em->flush($mail);
+
+        if($save){
+            $this->em->persist($mail);
+            $this->em->flush($mail);
+        }
+
     }
 
     public function sendMail(\Swift_Mailer $mailer,MailTblMail $mail,$vueData){

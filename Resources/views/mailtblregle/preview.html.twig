@@ -5,25 +5,18 @@
 {% endblock %}
 {% block leftBlock %}
 {% endblock %}
-{% block contentTitle %}Nouveau mail vue{% endblock %}
+{% block contentTitle %}Preview mail vue{% endblock %}
 {% block colListeNumber %}col-md-12{% endblock %}
 {% block contentListe %}
-    <h1>Mailtblregle creation</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {#<input type="submit" value="Create" />#}
-    <ul class="list_action">
-        <li><a href="{{ path('mailtblregle_index') }}"><i class="fa fa-list-alt"></i> Retour à la liste</a></li>
-        <li><input type="submit" class="btn btn-default" value="Mettre à jour" /></li>
-    </ul>
-    {{ form_end(form) }}
+    <div class="mail_preview">
+        Objet : {{ mailPreview.mailObject }}
+        <br />
+        Contenu :
+        <div>{{ mailPreview.mailBody|raw }}</div>
+    </div>
 
-    {#<ul>#}
-        {#<li>#}
-            {#<a href="{{ path('mailtblregle_index') }}">Back to the list</a>#}
-        {#</li>#}
-    {#</ul>#}
+
 {% endblock %}
 
 {% block mystyle %}
