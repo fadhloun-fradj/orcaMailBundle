@@ -45,14 +45,14 @@ class MailTblMailType
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_cc", type="string", length=512)
+     * @ORM\Column(name="mail_type_cc", type="string", length=512, nullable=true)
      */
     private $mailTypeCc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_bcc", type="string", length=5212)
+     * @ORM\Column(name="mail_type_bcc", type="string", length=5212, nullable=true)
      */
     private $mailTypeBcc;
 
