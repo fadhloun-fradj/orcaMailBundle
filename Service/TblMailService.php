@@ -13,12 +13,14 @@ class TblMailService
 {
     private $em;
     private $dir;
+    private $is_mail_enabled;
 
 
-    public function __construct(EntityManager $em,$dir)
+    public function __construct(EntityManager $em,$dir,$is_mail_enabled)
     {
         $this->em = $em;
         $this->dir = realpath($dir.'/../web');
+        $this->is_mail_enabled = $is_mail_enabled;
     }
 
     public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
@@ -66,7 +68,8 @@ class TblMailService
             $message->setTo(Constants::MAIL_ADMIN);
             $message->setSubject('Exception erreur envoi mail ['.Constants::PROJET.']');
 
-            $mailer->send($message);
+            if($this->is_mail_enabled)
+                $mailer->send($message);
         }
     }
     public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false,$save = true){
@@ -202,7 +205,8 @@ class TblMailService
             }
         }
 
-        $mailer->send($message);
+        if($this->is_mail_enabled)
+            $mailer->send($message);
         $mail->setUpdatedAt(new \DateTime('now'));
         $this->em->flush($mail);
 
@@ -220,6 +224,8 @@ class TblMailService
                 $mail = new MailTblMail();
             $this->mailTraiteMail($mailer,$mail,$regle,$vueData,true);
         }
-        $mailer->send($message);
+
+        if($this->is_mail_enabled)
+            $mailer->send($message);
     }
 }

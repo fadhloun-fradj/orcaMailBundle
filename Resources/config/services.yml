@@ -1,3 +1,6 @@
+parameters:
+    mail_nbr: 50
+    is_mail_enabled: 1 # 0 => OFF, 1 => ON
 services:
 #    orca_mail.example:
 #        class: Orca\MailBundle\Example
@@ -44,8 +47,8 @@ services:
 
     app.tbl_mail_service:
         class: Orca\MailBundle\Service\TblMailService
-        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%"]
+        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%","%is_mail_enabled%"]
 
     app.mail_service:
         class: Orca\MailBundle\Service\MailService
-        arguments: ["@doctrine.orm.entity_manager","@app.regle_service","@app.tbl_mail_service","@mailer","%kernel.root_dir%"]
+        arguments: ["@doctrine.orm.entity_manager","@app.regle_service","@app.tbl_mail_service","@mailer","%kernel.root_dir%","%mail_nbr%"]
