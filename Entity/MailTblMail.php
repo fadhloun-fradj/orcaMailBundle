@@ -30,7 +30,7 @@ class MailTblMail
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_expediteur", type="string", length=64)
+     * @ORM\Column(name="mail_expediteur", type="string", length=64, nullable=true)
      */
     private $mailExpediteur;
 
@@ -44,42 +44,42 @@ class MailTblMail
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_cc", type="string", length=512)
+     * @ORM\Column(name="mail_cc", type="string", length=512, nullable=true)
      */
     private $mailCc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_bcc", type="string", length=512)
+     * @ORM\Column(name="mail_bcc", type="string", length=512, nullable=true)
      */
     private $mailBcc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_body", type="string", length=255)
+     * @ORM\Column(name="mail_body", type="text", nullable=true)
      */
     private $mailBody;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_vue_data", type="string", length=255)
+     * @ORM\Column(name="mail_vue_data", type="text", nullable=true)
      */
     private $mailVueData;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetimetz")
+     * @ORM\Column(name="created_at", type="datetimetz", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetimetz")
+     * @ORM\Column(name="updated_at", type="datetimetz", nullable=true)
      */
     private $updatedAt;
 

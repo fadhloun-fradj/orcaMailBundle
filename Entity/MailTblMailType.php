@@ -38,7 +38,7 @@ class MailTblMailType
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_expediteur", type="string", length=64)
+     * @ORM\Column(name="mail_type_expediteur", type="string", length=64, nullable=true)
      */
     private $mailTypeExpediteur;
 
@@ -66,7 +66,7 @@ class MailTblMailType
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_body", type="string", length=255)
+     * @ORM\Column(name="mail_type_body", type="text", nullable=true)
      */
     private $mailTypeBody;
 

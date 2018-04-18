@@ -31,21 +31,21 @@ class MailTblVue
     /**
      * @var string
      *
-     * @ORM\Column(name="vue_sql_propel", type="string", length=255)
+     * @ORM\Column(name="vue_sql_propel", type="text", nullable=true)
      */
     private $vueSqlPropel;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vue_post_sql_raw", type="string", length=255)
+     * @ORM\Column(name="vue_post_sql_raw", type="text", nullable=true)
      */
     private $vuePostSqlRaw;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vue_sql_raw", type="string", length=255)
+     * @ORM\Column(name="vue_sql_raw", type="text", nullable=true)
      */
     private $vueSqlRaw;
 
