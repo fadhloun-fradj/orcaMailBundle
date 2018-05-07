@@ -29,10 +29,11 @@ class MailTblRegleController extends Controller
         $statement = $conn->prepare($regle->getVue()->getVueSqlRaw());
         $statement->execute();
         $datas = $statement->fetchAll();
-//var_dump($datas);die;
+
         $mailPreview = new MailTblMail();
         $mailPreview->setMailRegle($regle);
-        $this->get('app.tbl_mail_service')->initMail($mailPreview,$regle,$datas[0],false,false);
+        if(isset($datas[0]))
+            $this->get('app.tbl_mail_service')->initMail($mailPreview,$regle,$datas[0],false,false);
 
         return $this->render('OrcaMailBundle:mailtblregle:preview.html.twig', array(
             'mailPreview' => $mailPreview,

@@ -10,10 +10,14 @@
 {% block contentListe %}
 
     <div class="mail_preview">
-        Objet : {{ mailPreview.mailObject }}
-        <br />
-        Contenu :
-        <div>{{ mailPreview.mailBody|raw }}</div>
+        {% if mailPreview.mailObject %}
+            Objet : {{ mailPreview.mailObject }}
+            <br />
+            Contenu :
+            <div>{{ mailPreview.mailBody|raw }}</div>
+        {% else %}
+            <p>Aucun resultat</p>
+        {% endif %}
     </div>
 
 
