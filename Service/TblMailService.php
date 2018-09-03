@@ -14,13 +14,17 @@ class TblMailService
     private $em;
     private $dir;
     private $is_mail_enabled;
+    private $is_mail_destinataire_enabled;
+    private $mail_destinataire;
 
 
-    public function __construct(EntityManager $em,$dir,$is_mail_enabled)
+    public function __construct(EntityManager $em,$dir,$is_mail_enabled,$mail_destinataire,$is_mail_destinataire_enabled)
     {
         $this->em = $em;
         $this->dir = realpath($dir.'/../web');
         $this->is_mail_enabled = $is_mail_enabled;
+        $this->mail_destinataire = $mail_destinataire;
+        $this->is_mail_destinataire_enabled = $is_mail_destinataire_enabled;
     }
 
     public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
@@ -110,8 +114,12 @@ class TblMailService
 
         $mail->setMailBcc($type->getMailTypeBcc());
 
+        if($this->is_mail_destinataire_enabled) // Mail Statique
+            $mail->setMailDestinataire($this->mail_destinataire);
+        else // Mail dynamique
+            $mail->setMailDestinataire($vueData['destinataire']);
         // Mail dynamique
-        $mail->setMailDestinataire($vueData['destinataire']);
+//        $mail->setMailDestinataire($vueData['destinataire']);
         // Mail Statique
 //        $mail->setMailDestinataire('admin.beneteau@orcaformation.fr');
 
