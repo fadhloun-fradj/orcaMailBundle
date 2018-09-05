@@ -16,17 +16,15 @@ class SendMailCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        ini_set('memory_limit','-1');
+        ini_set('max_execution_time','360000000000');
         $output->writeln('Debut '.date('Y-m-d H:i:s'));
-
         try{
 //            $em = $this->getApplication()->getKernel()->getContainer()->get('doctrine')->getEntityManager();
             $mailer = new \Swift_Mailer(new \Swift_SmtpTransport());
             $this->getApplication()->getKernel()->getContainer()->get('app.mail_service')->traiteMail();
-
 //            $output->writeln($c);
             $output->writeln('Fin '.date('Y-m-d H:i:s'));
-            ini_set('memory_limit','-1');
-            ini_set('max_execution_time','3600');
         }
         catch(\Exception $e){
             $output->writeln($e->getMessage());

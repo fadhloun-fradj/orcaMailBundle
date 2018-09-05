@@ -17,3 +17,7 @@ orca_mail_mail_tbl_vue:
 orca_mail_mail_tbl_regle:
     resource: "@OrcaMailBundle/Controller/MailTblRegleController.php"
     type:     annotation
+
+orca_mail_mail_test:
+    resource: "@OrcaMailBundle/Controller/DefaultController.php"
+    type:     annotation
