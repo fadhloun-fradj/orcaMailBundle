@@ -63,7 +63,7 @@ class MailService
                                         'mailRegle'=>$regle,
                                         'id'=>$vueData['user_id']
                                     ));
-                                    if($mail instanceof MailTblMail){
+                                    if($mail instanceof MailTblMail && $mail->getCreatedAt()->format('Y-m-d')==date("Y-m-d")){
                                         $count++;
                                     }
                                 }
