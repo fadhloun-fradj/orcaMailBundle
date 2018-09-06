@@ -30,11 +30,11 @@ class TblMailService
     public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
         if(!isset($vueData['user_id']))
         {
-            throw new \Exception('la vue (règle '.$regle->getId().') doit posséder un champs user_id.');
+            throw new \Exception('la vue (rï¿½gle '.$regle->getId().') doit possï¿½der un champs user_id.');
         }
         if(!isset($vueData['destinataire']))
         {
-            throw new \Exception('la vue doit posséder un champs destinataire.');
+            throw new \Exception('la vue doit possï¿½der un champs destinataire.');
         }
         $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
             'mailRegle'=>$regle,
@@ -80,11 +80,11 @@ class TblMailService
         $type = $regle->getMailType();
         if (!isset($vueData['user_id']))
         {
-            throw new \Exception('la vue doit posséder un champs user_id.');
+            throw new \Exception('la vue doit possï¿½der un champs user_id.');
         }
         if (!isset($vueData['destinataire']))
         {
-            throw new \Exception('la vue doit posséder un champs destinataire.');
+            throw new \Exception('la vue doit possï¿½der un champs destinataire.');
         }
         if($exception)
             $mail->setId($vueData['user_id'].'_Exception');

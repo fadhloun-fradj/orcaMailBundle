@@ -3,6 +3,7 @@ namespace Orca\MailBundle\Service;
 
 
 use Doctrine\ORM\EntityManager;
+use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblRegle;
 
 class MailService
@@ -31,43 +32,41 @@ class MailService
         $ok = true;
         $ids = '';
         $count = 0;
+        if(file_exists($lockFileName))
+            unlink($lockFileName);
         if(!file_exists($lockFileName) || (filemtime($lockFileName) < strtotime('-2 hours')))
         {
-            file_put_contents($lockFileName, 'en cours');
+            file_put_contents($lockFileName, date('Y-m-d H:i:s').' en cours');
             $regles = $this->em->getRepository('OrcaMailBundle:MailTblRegle')->findBy(array('regleActif'=>true));
+            var_dump('REGLE COUNT : '. count($regles));
+            var_dump('PARAMS MAIL_NBR : '. $this->mail_nbr);
             foreach($regles as $regle) /** @var MailTblRegle $regle */
             {
+                var_dump('REGLE : '.$regle->getRegleLib());
                 if($regle->aEnvoye()){
                     $vue = $regle->getVue();
                     $vueDatas = $this->regleService->getVueDatas($vue);
+                    var_dump('DATA : '. count($vueDatas));
+
                     foreach($vueDatas as $vueData){
-                        try{
-                            if(filter_var($vueData['destinataire'],FILTER_VALIDATE_EMAIL))
-                                $exception = false;
-                            else{
-                                $exception = true;
+                            var_dump('SENDMAIL=>COUNT : '.$count);
+                            if($count > $this->mail_nbr){
+                                var_dump('$count > $this->mail_nbr : TRUE');
+                                file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
+                                $ok = false;
+                                break;
                             }
-                        }
-                        catch(\Exception $e){
-                            $exception = true;
-                        }
-                        $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
-                            'mailRegle'=>$regle,
-                            'id'=>$exception?$vueData['user_id'].'_Exception':$vueData['user_id']
-                        ));
-                        if(!$mail || $regle->getRegleRenvoi()){
-                            $count++;
-                        }
-                    }
-                    if($count > $this->mail_nbr){
-                        file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
-                        $ok = false;
-                    }
-                    else{
-                        foreach($vueDatas as $vueData){
                             try{
-                                if(filter_var($vueData['destinataire'],FILTER_VALIDATE_EMAIL))
-                                    $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,false,'');
+                                if(filter_var($vueData['destinataire'],FILTER_VALIDATE_EMAIL)) {
+                                    $this->tblMailService->traiteMail($this->mailer, $regle, $vueData, false, '');
+                                    $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
+                                        'mailRegle'=>$regle,
+                                        'id'=>$vueData['user_id']
+                                    ));
+                                    if($mail instanceof MailTblMail){
+                                        $count++;
+                                    }
+                                }
                                 else{
                                     $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,true,'Adress mail invalid');
                                 }
@@ -76,17 +75,24 @@ class MailService
                                 $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,true,$e->getMessage());
                             }
 
+
                         }
                         if($vue->getVuePostSqlRaw()){
                             $this->regleService->executePostTraiment($vue);
                         }
                         $regle->setRegleDateEnvoi(new \DateTime('now'));
                         $this->em->flush($regle);
-                    }
+                   // }
+                }
+
+                if($count > $this->mail_nbr){
+                    file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
+                    break;
                 }
             }
             if($ok)
                 unlink($lockFileName);
+            file_put_contents($lockFileName, date('Y-m-d H:i:s').' FIN');
         }
 
     }
