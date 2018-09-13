@@ -53,14 +53,14 @@
 {% endblock %}
 
 {% block myscript %}
-    <script src="{{ asset('js/bootstrap3-wysihtml5.all.min.js') }}"></script>
+    {#<script src="{{ asset('js/bootstrap3-wysihtml5.all.min.js') }}"></script>#}
     <script>
         $(function () {
             // Replace the <textarea id="editor1"> with a CKEditor
             // instance, using default configuration.
-//            CKEDITOR.replace('orca_mailbundle_mailtblmailtype_mailTypeBody')
+            CKEDITOR.replace('orca_mailbundle_mailtblmailtype_mailTypeBody');
             //bootstrap WYSIHTML5 - text editor
-            $('#orca_mailbundle_mailtblmailtype_mailTypeBody').wysihtml5();
+//            $('#orca_mailbundle_mailtblmailtype_mailTypeBody').wysihtml5();
         });
         var path_url = 'mailtblmailtype_index';
 
