@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Resources/views/mailtblregle/edit.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Resources/views/mailtblregle/new.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Resources/views/mailtblregle/preview.html.twig" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Service/MailService.php" charset="UTF-8" />
+  </component>
+</project>
