@@ -39,7 +39,7 @@ class MailTblMailTypeType extends AbstractType
                 'label'=>'Actif'
             ))
             ->add('mailTypeBody',TextareaType::class,array(
-                'attr'=>array('class'=>'tinymce form-control','rows'=>10),
+                'attr'=>array('class'=>'form-control','rows'=>10),
                 'label'=>'Contenu'
             ))
         ;
