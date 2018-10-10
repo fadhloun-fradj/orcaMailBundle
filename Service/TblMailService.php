@@ -162,8 +162,11 @@ class TblMailService
 
 
         if($save){
+	        $this->createNewEntityManager();
+	        //var_dump($em);		
             $this->em->persist($mail);
-            $this->em->flush($mail);
+            $this->em->flush();
+            //$this->em->close();
         }
 
     }
@@ -216,7 +219,9 @@ class TblMailService
         if($this->is_mail_enabled)
             $mailer->send($message);
         $mail->setUpdatedAt(new \DateTime('now'));
+        $this->createNewEntityManager();
         $this->em->flush($mail);
+        //$this->em->close();	
 
     }
 
@@ -235,5 +240,13 @@ class TblMailService
 
         if($this->is_mail_enabled)
             $mailer->send($message);
+    }
+    protected function createNewEntityManager() {
+
+        $this->em = !$this->em->isOpen() ? $this->em->create(
+            $this->em->getConnection(),
+            $this->em->getConfiguration(),
+            $this->em->getEventManager()
+        ) : $this->em;
     }
 }

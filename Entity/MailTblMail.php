@@ -17,6 +17,7 @@ class MailTblMail
      *
      * @ORM\Column(name="user_id", type="string",length=64)
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $id;
 
@@ -95,7 +96,7 @@ class MailTblMail
 
     /**
      * @var \Orca\MailBundle\Entity\MailTblRegle
-     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblRegle")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="regle_id", referencedColumnName="regle_id")

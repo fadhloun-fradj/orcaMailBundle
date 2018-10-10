@@ -81,7 +81,10 @@ class MailService
                             $this->regleService->executePostTraiment($vue);
                         }
                         $regle->setRegleDateEnvoi(new \DateTime('now'));
+                        $this->createNewEntityManager();
                         $this->em->flush($regle);
+                        //$this->em->close();
+
                    // }
                 }
 
@@ -94,7 +97,15 @@ class MailService
                 unlink($lockFileName);
             file_put_contents($lockFileName, date('Y-m-d H:i:s').' FIN');
         }
-
     }
+
+    protected function createNewEntityManager() {
+
+	    $this->em = !$this->em->isOpen() ? $this->em->create(
+	        $this->em->getConnection(),
+	        $this->em->getConfiguration(),
+	        $this->em->getEventManager()
+	    ) : $this->em;
+	}
 
 }

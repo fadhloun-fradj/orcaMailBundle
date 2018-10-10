@@ -1,8 +1,9 @@
 parameters:
     mail_nbr: 50
     is_mail_enabled: 0 # 0 => OFF, 1 => ON
-    mail_destinataire: mbouasraf@orcaformation.fr
     is_mail_destinataire_enabled: 1 # 0 => OFF, 1 => ON
+    mail_destinataire: mbouasraf@orcaformation.fr
+
 services:
 #    orca_mail.example:
 #        class: Orca\MailBundle\Example
