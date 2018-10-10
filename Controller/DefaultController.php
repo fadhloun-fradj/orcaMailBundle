@@ -44,4 +44,37 @@ class DefaultController extends Controller
             echo $e->getMessage().' '.$e->getTraceAsString();
         }
     }
+
+
+    /**
+     * for Testing PlugIn de mail
+     *
+     * @Route("/mail", name="testing_sendmail")
+     * @Method({"GET", "POST"})
+     */
+    public function sendmail(Request $request){
+        $mailer = new \Swift_Mailer((new \Swift_SmtpTransport($this->getParameter('mailer_host'),25))->setUsername($this->getParameter('mailer_user'))->setPassword($this->getParameter('mailer_password')));
+        $mail = $request->get('mail');
+        if(!empty($mail)) {
+            @mail($mail, "My subject", "ddddddd");
+            $message = (new \Swift_Message('Hello Email2'))
+                ->setFrom($mail)
+                ->setTo($mail)
+                ->setBody(';,qsdjkkqsdqslqsdfmsdqmmfsdqfqdksf',
+                    'text/plain'
+                )/*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'Emails/registration.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+            ;
+
+            $mailer->send($message);
+        }
+    }
 }
