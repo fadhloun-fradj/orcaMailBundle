@@ -1,8 +1,5 @@
-{% extends 'BackendAppBundle::base.html.twig' %}
+{% extends 'OrcaMailBundle::base.html.twig' %}
 
-{% block menu %}
-    {{ render(controller('OrcaMenuBundle:Default:menu')) }}
-{% endblock %}
 {% block leftBlock %}
 {% endblock %}
 {% block contentTitle %}Modification Mailtblregle{% endblock %}
@@ -49,11 +46,11 @@
             margin-top: 10px;
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap3-wysihtml5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/bootstrap3-wysihtml5.min.css') }}">
 {% endblock %}
 
 {% block myscript %}
-<script src="{{ asset('js/bootstrap3-wysihtml5.all.min.js') }}"></script>
+<script src="{{ asset('bundles/orcamail/js/bootstrap3-wysihtml5.all.min.js') }}"></script>
 <script>
     $(function () {
         // Replace the <textarea id="editor1"> with a CKEditor

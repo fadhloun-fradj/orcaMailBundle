@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="{{ asset('bundles/orcamail/img/favicon.ico') }}"/>
+    <meta charset=utf-8/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Plugin de mail</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+
+    <!-- import font Lato-Regular & Lato-Bold -->
+    <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/font.css') }}">
+
+    <style>
+        .main-sidebar {
+            position: fixed;
+        }
+
+        .main-header {
+            width: 100%;
+            position: fixed;
+        }
+
+        .thead > tr > th {
+            background-color: rgba(60, 141, 188, 0.32);
+            text-align: center;
+        }
+
+        .info-box-content {
+            padding: 12px 15px !important;
+            margin-left: 50px !important;
+            /*background: url(/img/bg/bg1.jpg) no-repeat fixed !important;*/
+            /*background-position: center center !important;*/
+            /*background-size: cover !important;*/
+            min-height: 50px;
+            /*background-color: #f1f1f1;*/
+        }
+
+        .bg-primary {
+            background-color: #3c8dbc !important;
+        }
+
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 10px solid #3498db;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .textanimated {
+            text-align: center;
+            margin-top: 12px;
+            color: #006dbb;
+            font-size: 1.0em;
+            font-family: sans-serif;
+            text-transform: uppercase;
+        }
+
+        .animated {
+            animation-duration: 2.5s;
+            animation-fill-mode: both;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes wobble {
+            0% {
+                transform: translateX(0%);
+            }
+            15% {
+                transform: translateX(-25%) rotate(-5deg);
+            }
+            30% {
+                transform: translateX(20%) rotate(3deg);
+            }
+            45% {
+                transform: translateX(-15%) rotate(-3deg);
+            }
+            60% {
+                transform: translateX(10%) rotate(2deg);
+            }
+            75% {
+                transform: translateX(-5%) rotate(-1deg);
+            }
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        .wobble {
+            animation-name: wobble;
+        }
+
+        .navbar-brand-centered {
+            position: absolute;
+            left: 50%;
+            display: block;
+            margin-left: -125px;
+            width: 250px;
+            text-align: center;
+
+            line-height: 5px !important;
+            background-color: #ffffff;
+        }
+
+        .navbar > .container .navbar-brand-centered,
+        .navbar > .container-fluid .navbar-brand-centered {
+            margin-left: -80px;
+        }
+
+        .w100 {
+            width: 100%;
+        }
+
+        .pl0 {
+            padding-left: 0px !important;
+        }
+
+        .table-responsive {
+            overflow-x: inherit;
+        }
+
+        @media (max-width: 991px) {
+            .pl0 {
+                padding-left: 15px !important;
+            }
+        }
+    </style>
+    {% block headLib %}
+        <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/bootstrap.min.css') }}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">#}
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/AdminLTE.min.css') }}">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/_all-skins.min.css') }}">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/grey.css') }}">
+        <!-- Morris chart -->
+        {#<link rel="stylesheet" href="{{ asset('bundles/orcamail/css/morris.css') }}">#}
+        <!-- jvectormap -->
+        {#<link rel="stylesheet" href="{{ asset('bundles/orcamail/css/jquery-jvectormap-1.2.2.css') }}">#}
+        <!-- Date Picker -->
+        {#<link rel="stylesheet" href="{{ asset('bundles/orcamail/css/datepicker3.css') }}">#}
+        <!-- Daterange picker -->
+        {#<link rel="stylesheet" href="{{ asset('bundles/orcamail/css/daterangepicker.css') }}">#}
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/bootstrap3-wysihtml5.min.css') }}">
+
+        {#<link rel="stylesheet" href="{{ asset('bundles/orcamail/css/dataTables.bootstrap.css') }}">#}
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        {#<link rel="stylesheet"#}
+              {#href="https://cdn.datatables.net/u/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.12,b-1.2.1,b-colvis-1.2.1,b-flash-1.2.1,b-html5-1.2.1,b-print-1.2.1,r-2.1.0/datatables.min.css">#}
+        {#<link rel="stylesheet"#}
+              {#href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"/>#}
+        {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.4.1/featherlight.min.css">#}
+        {#<link rel="stylesheet"#}
+              {#href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.1.0/css/bootstrap-slider.min.css">#}
+        {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"/>#}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment-with-locales.min.js"></script>#}
+        {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>#}
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.20/daterangepicker.min.js"></script>#}
+        {#<script src="https://cdn.datatables.net/u/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.12,b-1.2.1,b-colvis-1.2.1,b-flash-1.2.1,b-html5-1.2.1,b-print-1.2.1,r-2.1.0/datatables.min.js"></script>#}
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/featherlight/1.4.1/featherlight.min.js"></script>#}
+        {#<script src="https://raw.githubusercontent.com/bartaz/sandbox.js/master/jquery.highlight.js"></script>#}
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/7.1.0/bootstrap-slider.min.js"></script>#}
+        {#<script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js'></script>#}
+        <style>
+            .content {
+                min-height: 850px;
+            }
+        </style>
+        {#<!-- jQuery UI 1.11.4 -->#}
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+        {#<script src="{{ asset('bundles/orcamail/js/bootstrap.min.js') }}"></script>#}
+        <style>
+            div.dataTables_processing {
+                font-weight: bold;
+                background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(177, 177, 177, 0)), color-stop(25%, rgba(177, 177, 177, 0.9)), color-stop(75%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));
+                background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(177, 177, 177, 0.9) 25%, rgba(177, 177, 177, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
+                background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(177, 177, 177, 0.9) 25%, rgba(177, 177, 177, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
+                background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(177, 177, 177, 0.9) 25%, rgba(177, 177, 177, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
+                background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(177, 177, 177, 0.9) 25%, rgba(177, 177, 177, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
+                background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(177, 177, 177, 0.9) 25%, rgba(117, 117, 117, 0.9) 75%, rgba(255, 255, 255, 0) 100%);
+            }
+
+            div.dataTables_wrapper div.dataTables_processing {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 200px;
+                margin-left: -100px;
+                margin-top: -26px;
+                text-align: center;
+                /* padding: 0; */
+            }
+        </style>
+    {% endblock %}
+    {% block mystyle %}
+    {% endblock %}
+</head>
+
+{% block body %}
+    <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        {% block header %}
+            <style>
+                .navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+                    background-color: #84c0e2;
+                }
+            </style>
+            <header class="main-header">
+                <!-- Logo -->
+                <a href="/" class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini"><b>PM</b></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg">BO - Plugin de mail</span>
+                </a>
+                <!-- Header Navbar: style can be found in header.less -->
+            </header>
+        {% endblock %}
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            {% block sidebar %}
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="{{ asset('bundles/orcamail/img/orca.png') }}" class="img-circle" alt="User Image">
+                        </div>
+                        <div class="pull-left info">
+                                    <p>Hello User</p>
+                            {#<a href="#"><i class="fa fa-circle text-success"></i> en ligne</a>#}
+                        </div>
+                    </div>
+                    {# --Block menu-- #}
+                    {% block menu %}
+                        <ul class="sidebar-menu">
+                            <li class="header">MENU PRINCIPAL</li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-dashboard"></i> <span>Plugin de mail</span>
+                                    <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="active" id="mailtblvue_index"><a href="{{ path('mailtblvue_index') }}"><i
+                                                    class="fa fa-circle-o"></i> mail vue de données</a></li>
+                                    <li class="" id="mailtblmailtype_index"><a href="{{ path('mailtblmailtype_index') }}"><i
+                                                    class="fa fa-circle-o"></i> mail type</a></li>
+                                    <li class="" id="mailtblregle_index"><a href="{{ path('mailtblregle_index') }}"><i
+                                                    class="fa fa-circle-o"></i> mail regle</a></li>
+                                </ul>
+                            </li>
+                            <li class="treeview">
+                                <a href="/">
+                                    <i class="fa fa-home"></i> <span>Accueil</span>
+                                </a>
+                            </li>
+                        </ul>
+                    {% endblock %}
+                    {# --End block menu-- #}
+
+                </section>
+                <!-- /.sidebar -->
+            {% endblock %}
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="overflow: auto;margin-top: 50px;">
+            {% block wrapper %}
+                <!-- Content Header (Page header) -->
+                {#<section class="content-header">#}
+                {#<h1>#}
+                {#Dashboard#}
+                {#<small>Control panel</small>#}
+                {#</h1>#}
+                {#<ol class="breadcrumb">#}
+                {#<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+                {#<li class="active">Dashboard</li>#}
+                {#</ol>#}
+                {#</section>#}
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="col-md-12">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-primary"><i class="ion ion-ios-gear-outline"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-number"
+                                      style="color: #3c8dbc;font-family: 'LatoBold';">{% block contentTitle %}{% endblock %}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <h1></h1>
+                    {% block myContentWithActions %}
+                        {% block leftBlock %}
+                            <div class="{% block colFilterNumber %}col-md-2{% endblock %}">
+                                {% block boxFiltre %}
+                                    <div class="box box-primary collapsed-box" style="margin-bottom: 10px;">
+                                        <div class="box-header">
+                                            <h4 class="box-title">
+                                                {% block titleFiltre %}
+                                                    Filtres
+                                                {% endblock %}
+                                            </h4>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                                            class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body" id="my-filter">
+                                            {% block contentFiltre %}{% endblock %}
+                                        </div>
+                                    </div>
+                                {% endblock %}
+
+                                {% block boxAction %}
+                                    <div class="box box-primary action">
+                                        <div class="box-header">
+                                            <h4 class="box-title">
+                                                {% block titleAction %}
+                                                    Actions
+                                                {% endblock %}
+                                            </h4>
+                                        </div>
+                                        <div class="box-body" id="my-action">
+                                            {% block contentAction %}{% endblock %}
+                                        </div>
+                                    </div>
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                        {% block rightBlock %}
+                            <div class="{% block colListeNumber %}col-md-10{% endblock %}">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        {#<h4>#}
+                                        {% block titleListe %}{% endblock %}
+                                        {#</h4>#}
+                                    </div>
+                                    <div class="box-body" style="font-size: 12px;">
+                                        {% block contentListe %}{% endblock %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endblock %}
+                    {% endblock %}
+                </section>
+            {% endblock %}
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="col-md-4">
+                <strong>Copyright &copy; 2017-{{ ''|date('Y') }} <a href="#">ORCA Groupe</a></strong>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    {#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+    {#<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>#}
+
+    {% block script %}
+        <!-- jQuery 2.2.3 -->
+        <script src="{{ asset('bundles/orcamail/js/jquery-2.2.3.min.js') }}"></script>
+        <!-- jQuery UI 1.11.4 -->
+        {#<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>#}
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+//            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="{{ asset('bundles/orcamail/js/bootstrap.min.js') }}"></script>
+        <!-- Morris.js charts -->
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>#}
+        {#<script src="{{ asset('bundles/orcamail/js/morris.min.js') }}"></script>#}
+        <!-- Sparkline -->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery.sparkline.min.js') }}"></script>#}
+        <!-- jvectormap -->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery-jvectormap-1.2.2.min.js') }}"></script>#}
+        {#<script src="{{ asset('bundles/orcamail/js/jquery-jvectormap-world-mill-en.js') }}"></script>#}
+        <!-- jQuery Knob Chart -->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery.knob.js') }}"></script>#}
+        <!-- daterangepicker -->
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>#}
+        {#<script src="{{ asset('bundles/orcamail/js/daterangepicker.js') }}"></script>#}
+        <!-- datepicker -->
+        {#<script src="{{ asset('bundles/orcamail/js/bootstrap-datepicker.js') }}"></script>#}
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="{{ asset('bundles/orcamail/js/bootstrap3-wysihtml5.all.min.js') }}"></script>
+        <!-- Slimscroll -->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery.slimscroll.min.js') }}"></script>#}
+        <!-- FastClick -->
+        {#<script src="{{ asset('bundles/orcamail/js/fastclick.js') }}"></script>#}
+        <!-- AdminLTE App -->
+        {#<script src="{{ asset('bundles/orcamail/js/app.min.js') }}"></script>#}
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        {#<script src="{{ asset('bundles/orcamail/js/dashboard.js') }}"></script>#}
+        <!-- AdminLTE for demo purposes -->
+        {#<script src="{{ asset('bundles/orcamail/js/demo.js') }}"></script>#}
+
+        <!-- DataTables -->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery.dataTables.min.js') }}"></script>#}
+        {#<script src="{{ asset('bundles/orcamail/js/dataTables.bootstrap.min.js') }}"></script>#}
+
+
+        <!-- jquery toaster-->
+        {#<script src="{{ asset('bundles/orcamail/js/jquery.toaster.js') }}"></script>#}
+
+
+        {#<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>#}
+
+    {% endblock %}
+    {% block myscript %}
+    {% endblock %}
+    <script>
+
+        //    localStorage.setItem('sidebar', 0);
+
+        $(document).ready(function () {
+            if (!localStorage.getItem('sidebar')) {
+                $(document.body).removeClass('ffsidebar-collapse');
+                console.log('First if ' + localStorage.getItem('sidebar'));
+            }
+            else {
+                $(document.body).addClass('ffsidebar-collapse');
+                console.log('Second if ' + localStorage.getItem('sidebar'));
+            }
+        });
+
+        $('.sidebar-toggle').click(function () {
+            var body = $('body');
+            $(document.body).addClass('ffsidebar-collapse');
+            console.log($.inArray('sidebar-collapse', $('body').attr('class').split(' ')));
+            if ($.inArray('sidebar-collapse', $('body').attr('class').split(' '))) {
+                $(document.body).removeClass('ffsidebar-collapse');
+                localStorage.setItem('sidebar', 0);
+                console.log('First click if ' + localStorage.getItem('sidebar'));
+            }
+            else {
+                $(document.body).addClass('ffsidebar-collapse');
+                localStorage.setItem('sidebar', 1);
+                console.log('Second click if ' + localStorage.getItem('sidebar'));
+            }
+
+
+        });
+        // Active menu
+        var path_url = '{{ app.request.attributes.get('_route') }}';
+        $("#" + path_url).addClass('active');
+        $("#" + path_url).parent().parent().addClass('active');
+
+    </script>
+    <script src="{{ asset('bundles/orcamail/js/ckeditor.js') }}"></script>
+    <script src="{{ asset('bundles/orcamail/js/sample.js') }}"></script>
+    <script>
+        $(function () {
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            if ($('#orca_mailbundle_mailtblmailtype_mailTypeBody').length > 0) {
+                CKEDITOR.replace('orca_mailbundle_mailtblmailtype_mailTypeBody');
+            }
+            //bootstrap WYSIHTML5 - text editor
+//            $('#orca_mailbundle_mailtblmailtype_mailTypeBody').wysihtml5();
+        });
+    </script>
+    </body>
+{% endblock %}
+</html>

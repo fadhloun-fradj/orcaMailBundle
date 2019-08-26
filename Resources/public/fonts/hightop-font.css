@@ -1,0 +1,13 @@
+@font-face{font-family:'hightop';src:url('../fonts/hightop.eot');src:url('../fonts/hightopd41d.eot?#iefix') format("embedded-opentype"),url('../fonts/hightop.woff') format("woff"),url('../fonts/hightop.ttf') format("truetype"),url('../fonts/hightop.svg#hightop') format("svg");font-weight:normal;font-style:normal}[data-icon]:before{font-family:'hightop';content:attr(data-icon);speak:none;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.hightop-home,.hightop-feed,.hightop-star,.hightop-forms,.hightop-tables,.hightop-charts,.hightop-pages,.hightop-gallery,.hightop-flag,.hightop-envelope,.hightop-gear{font-family:'hightop';speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased}.hightop-home:before{content:"\e006"}.hightop-feed:before{content:"\e002"}.hightop-star:before{content:"\e003"}.hightop-forms:before{content:"\e004"}.hightop-tables:before{content:"\e00a"}.hightop-charts:before{content:"\e007"}.hightop-pages:before{content:"\e008"}.hightop-gallery:before{content:"\e009"}.hightop-flag:before{content:"\e000"}.hightop-envelope:before{content:"\e005"}.hightop-gear:before{content:"\e001"}@media screen and (-webkit-min-device-pixel-ratio: 0){@font-face{font-family:'hightop';src:url('../fonts/hightop.svg#hightop') format("svg")}}
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('../fonts/OpenSans-SemiBold.ttf');
+}
+@font-face {
+    font-family: 'open_sansbold';
+    src: url('../fonts/OpenSans-Bold.ttf');
+}
+@font-face {
+    font-family: 'open_sansextrabold';
+    src: url('../fonts/OpenSans-ExtraBold.ttf');
+}

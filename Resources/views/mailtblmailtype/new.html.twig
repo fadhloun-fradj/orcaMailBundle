@@ -1,8 +1,6 @@
-{% extends 'BackendAppBundle::base.html.twig' %}
+{% extends 'OrcaMailBundle::base.html.twig' %}
 
-{% block menu %}
-    {{ render(controller('OrcaMenuBundle:Default:menu')) }}
-{% endblock %}
+
 {% block leftBlock %}
 {% endblock %}
 {% block contentTitle %}Creation MailTypeAdmin{% endblock %}
@@ -15,9 +13,9 @@
     {#<input type="submit" value="Create" />#}
     <ul class="list_action">
         {#<li><a href="#"><i class="fa fa-remove red"></i> Supprimer</a></li>#}
-        <li><a href="{{ path('mailtblmailtype_index') }}"><i class="fa fa-list-alt"></i> Retour à la liste</a></li>
-        <li> <input type="submit" class="btn btn-default" value="Mettre à jour" /></li>
-        {#<li><a href="{{ path('getResultSQL',{'sql':mailTblVue.vueSqlRaw}) }}" target="_blank"><i class="fa fa-list-alt"></i> Voir résultat de la sélection</a></li>#}
+        <li><a href="{{ path('mailtblmailtype_index') }}"><i class="fa fa-list-alt"></i> Retour ï¿½ la liste</a></li>
+        <li> <input type="submit" class="btn btn-default" value="Mettre ï¿½ jour" /></li>
+        {#<li><a href="{{ path('getResultSQL',{'sql':mailTblVue.vueSqlRaw}) }}" target="_blank"><i class="fa fa-list-alt"></i> Voir rï¿½sultat de la sï¿½lection</a></li>#}
     </ul>
     {{ form_end(form) }}
 
@@ -44,7 +42,7 @@
             margin-top: 10px;
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap3-wysihtml5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/orcamail/css/bootstrap3-wysihtml5.min.css') }}">
 {% endblock %}
 
 {% block myscript %}
