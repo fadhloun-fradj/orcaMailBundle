@@ -38,20 +38,20 @@ class MailService
         {
             file_put_contents($lockFileName, date('Y-m-d H:i:s').' en cours');
             $regles = $this->em->getRepository('OrcaMailBundle:MailTblRegle')->findBy(array('regleActif'=>true));
-            var_dump('REGLE COUNT : '. count($regles));
-            var_dump('PARAMS MAIL_NBR : '. $this->mail_nbr);
+//            var_dump('REGLE COUNT : '. count($regles));
+//            var_dump('PARAMS MAIL_NBR : '. $this->mail_nbr);
             foreach($regles as $regle) /** @var MailTblRegle $regle */
             {
-                var_dump('REGLE : '.$regle->getRegleLib());
+//                var_dump('REGLE : '.$regle->getRegleLib());
                 if($regle->aEnvoye()){
                     $vue = $regle->getVue();
                     $vueDatas = $this->regleService->getVueDatas($vue);
-                    var_dump('DATA : '. count($vueDatas));
+//                    var_dump('DATA : '. count($vueDatas));
 
                     foreach($vueDatas as $vueData){
-                            var_dump('SENDMAIL=>COUNT : '.$count);
+//                            var_dump('SENDMAIL=>COUNT : '.$count);
                             if($count > $this->mail_nbr){
-                                var_dump('$count > $this->mail_nbr : TRUE');
+//                                var_dump('$count > $this->mail_nbr : TRUE');
                                 file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
                                 $ok = false;
                                 break;
@@ -81,7 +81,10 @@ class MailService
                             $this->regleService->executePostTraiment($vue);
                         }
                         $regle->setRegleDateEnvoi(new \DateTime('now'));
+                        $this->createNewEntityManager();
                         $this->em->flush($regle);
+                        //$this->em->close();
+
                    // }
                 }
 
@@ -94,7 +97,15 @@ class MailService
                 unlink($lockFileName);
             file_put_contents($lockFileName, date('Y-m-d H:i:s').' FIN');
         }
-
     }
+
+    protected function createNewEntityManager() {
+
+	    $this->em = !$this->em->isOpen() ? $this->em->create(
+	        $this->em->getConnection(),
+	        $this->em->getConfiguration(),
+	        $this->em->getEventManager()
+	    ) : $this->em;
+	}
 
 }

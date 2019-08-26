@@ -16,15 +16,19 @@ class TblMailService
     private $is_mail_enabled;
     private $is_mail_destinataire_enabled;
     private $mail_destinataire;
+    private $mail_admin;
+    private $projet;
 
 
-    public function __construct(EntityManager $em,$dir,$is_mail_enabled,$mail_destinataire,$is_mail_destinataire_enabled)
+    public function __construct(EntityManager $em,$dir,$is_mail_enabled,$mail_destinataire,$is_mail_destinataire_enabled,$mail_admin,$projet)
     {
         $this->em = $em;
         $this->dir = realpath($dir.'/../web');
         $this->is_mail_enabled = $is_mail_enabled;
         $this->mail_destinataire = $mail_destinataire;
         $this->is_mail_destinataire_enabled = $is_mail_destinataire_enabled;
+        $this->mail_admin = $mail_admin ? $mail_admin : Constants::MAIL_ADMIN;
+        $this->projet = $projet ? $projet : Constants::PROJET;
     }
 
     public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
@@ -69,8 +73,8 @@ class TblMailService
                 $message->setFrom($mail->getMailExpediteur());
             }
             $message->setBody($msg,'text/html');
-            $message->setTo(Constants::MAIL_ADMIN);
-            $message->setSubject('Exception erreur envoi mail ['.Constants::PROJET.']');
+            $message->setTo($this->mail_admin);
+            $message->setSubject('Exception erreur envoi mail ['.$this->projet.']');
 
             if($this->is_mail_enabled)
                 $mailer->send($message);
@@ -93,7 +97,7 @@ class TblMailService
         $mail->setMailRegle($regle);
         $mail->setMailVueData(json_encode($vueData));
         $mail->setMailType($type);
-        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : Constants::MAIL_ADMIN);
+        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_admin);
 
         $objetTags = $type->getCcTags();
 
@@ -162,8 +166,11 @@ class TblMailService
 
 
         if($save){
+	        $this->createNewEntityManager();
+	        //var_dump($em);		
             $this->em->persist($mail);
-            $this->em->flush($mail);
+            $this->em->flush();
+            //$this->em->close();
         }
 
     }
@@ -216,7 +223,9 @@ class TblMailService
         if($this->is_mail_enabled)
             $mailer->send($message);
         $mail->setUpdatedAt(new \DateTime('now'));
+        $this->createNewEntityManager();
         $this->em->flush($mail);
+        //$this->em->close();	
 
     }
 
@@ -235,5 +244,13 @@ class TblMailService
 
         if($this->is_mail_enabled)
             $mailer->send($message);
+    }
+    protected function createNewEntityManager() {
+
+        $this->em = !$this->em->isOpen() ? $this->em->create(
+            $this->em->getConnection(),
+            $this->em->getConfiguration(),
+            $this->em->getEventManager()
+        ) : $this->em;
     }
 }
