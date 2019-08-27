@@ -16,19 +16,19 @@ class TblMailService
     private $is_mail_enabled;
     private $is_mail_destinataire_enabled;
     private $mail_destinataire;
-    private $mail_admin;
+    private $mail_expediteur;
     private $projet;
 
 
-    public function __construct(EntityManager $em,$dir,$is_mail_enabled,$mail_destinataire,$is_mail_destinataire_enabled,$mail_admin,$projet)
+    public function __construct(EntityManager $em,$dir,ContainerInterface $container)
     {
         $this->em = $em;
         $this->dir = realpath($dir.'/../web');
-        $this->is_mail_enabled = $is_mail_enabled;
-        $this->mail_destinataire = $mail_destinataire;
-        $this->is_mail_destinataire_enabled = $is_mail_destinataire_enabled;
-        $this->mail_admin = $mail_admin ? $mail_admin : Constants::MAIL_ADMIN;
-        $this->projet = $projet ? $projet : Constants::PROJET;
+        $this->is_mail_enabled = $container->getParameter('is_mail_enabled');
+        $this->is_mail_destinataire_enabled = $container->getParameter('is_mail_destinataire_enabled');
+        $this->mail_destinataire = $container->getParameter('mail_destinataire') ? $container->getParameter('mail_destinataire') : Constants::MAIL_ADMIN;
+        $this->mail_expediteur = $container->getParameter('mail_expediteur')  ? $container->getParameter('mail_expediteur') : Constants::MAIL_ADMIN;
+        $this->projet = $container->getParameter('projet') ? $container->getParameter('projet') : Constants::PROJET;
     }
 
     public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
@@ -73,7 +73,7 @@ class TblMailService
                 $message->setFrom($mail->getMailExpediteur());
             }
             $message->setBody($msg,'text/html');
-            $message->setTo($this->mail_admin);
+            $message->setTo($this->mail_expediteur);
             $message->setSubject('Exception erreur envoi mail ['.$this->projet.']');
 
             if($this->is_mail_enabled)
@@ -97,7 +97,7 @@ class TblMailService
         $mail->setMailRegle($regle);
         $mail->setMailVueData(json_encode($vueData));
         $mail->setMailType($type);
-        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_admin);
+        $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_expediteur);
 
         $objetTags = $type->getCcTags();
 

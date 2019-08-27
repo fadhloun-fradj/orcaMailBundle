@@ -14,17 +14,15 @@ class MailService
     private $mailer;
     private $dir;
     private $mail_nbr;
-    private $is_mail_enabled;
 
-
-    public function __construct(EntityManager $em,$regleService,$tblMailService,\Swift_Mailer $mailer,$dir,$mail_nbr)
+    public function __construct(EntityManager $em,$regleService,$tblMailService,\Swift_Mailer $mailer,$dir,ContainerInterface $container)
     {
         $this->em = $em;
         $this->regleService = $regleService;
         $this->tblMailService = $tblMailService;
         $this->mailer = $mailer;
         $this->dir = realpath($dir.'/../web');
-        $this->mail_nbr = $mail_nbr;
+        $this->mail_nbr = $container->getParameter('mail_nbr');
     }
 
     public function traiteMail(){

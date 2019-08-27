@@ -44,8 +44,8 @@ services:
 
     app.tbl_mail_service:
         class: Orca\MailBundle\Service\TblMailService
-        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%","%is_mail_enabled%","%mail_destinataire%","%is_mail_destinataire_enabled%",%mail_admin%,%projet%]
+        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%",'@service_container']
 
     app.mail_service:
         class: Orca\MailBundle\Service\MailService
-        arguments: ["@doctrine.orm.entity_manager","@app.regle_service","@app.tbl_mail_service","@mailer","%kernel.root_dir%","%mail_nbr%"]
+        arguments: ["@doctrine.orm.entity_manager","@app.regle_service","@app.tbl_mail_service","@mailer","%kernel.root_dir%",'@service_container']
