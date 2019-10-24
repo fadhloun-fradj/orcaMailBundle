@@ -5,6 +5,7 @@ namespace Orca\MailBundle\Service;
 use Doctrine\ORM\EntityManager;
 use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblRegle;
+use Psr\Container\ContainerInterface;
 
 class MailService
 {

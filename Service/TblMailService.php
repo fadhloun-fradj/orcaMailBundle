@@ -8,6 +8,7 @@ use Orca\MailBundle\Entity\MailTblMailType;
 use Orca\MailBundle\Entity\MailTblRegle;
 use Orca\MailBundle\Entity\MailTblVue;
 use Orca\MailBundle\Utils\Constants;
+use Psr\Container\ContainerInterface;
 
 class TblMailService
 {

@@ -24,6 +24,7 @@ class OrcaMailExtension extends Extension
         $processor = new Processor();
         $configuration = new Configuration();
         $config = $processor->processConfiguration($configuration, $configs);
+        $container->setParameter('mail_nbr', $config['mail_nbr']);
         $container->setParameter('is_mail_enabled', $config['is_mail_enabled']);
         $container->setParameter('is_mail_destinataire_enabled', $config['is_mail_destinataire_enabled']);
         $container->setParameter('mail_destinataire', $config['mail_destinataire']);
