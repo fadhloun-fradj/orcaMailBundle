@@ -24,7 +24,7 @@ class TblMailService
     public function __construct(EntityManager $em,$dir,ContainerInterface $container)
     {
         $this->em = $em;
-        $this->dir = realpath($dir.'/../web');
+        $this->dir = realpath($dir.'/../public');
         $this->is_mail_enabled = $container->getParameter('is_mail_enabled');
         $this->is_mail_destinataire_enabled = $container->getParameter('is_mail_destinataire_enabled');
         $this->mail_destinataire = $container->getParameter('mail_destinataire') ? $container->getParameter('mail_destinataire') : Constants::MAIL_ADMIN;
@@ -43,7 +43,7 @@ class TblMailService
         }
         $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
             'mailRegle'=>$regle,
-            'id'=>$exception?$vueData['user_id'].'_Exception':$vueData['user_id']
+            'user_id'=>$exception?$vueData['user_id'].'_Exception':$vueData['user_id']
         ));
         if(!$mail || $regle->getRegleRenvoi()){
 
@@ -92,9 +92,9 @@ class TblMailService
             throw new \Exception('la vue doit poss�der un champs destinataire.');
         }
         if($exception)
-            $mail->setId($vueData['user_id'].'_Exception');
+            $mail->setUserId($vueData['user_id'].'_Exception');
         else
-            $mail->setId($vueData['user_id']);
+            $mail->setUserId($vueData['user_id']);
         $mail->setMailRegle($regle);
         $mail->setMailVueData(json_encode($vueData));
         $mail->setMailType($type);
@@ -234,7 +234,7 @@ class TblMailService
 
         $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
             'mailRegle'=>$regle,
-            'id'=>$vueData['user_id']
+            'user_id'=>$vueData['user_id']
         ));
         if(!$mail || $regle->getRegleRenvoi()){
 

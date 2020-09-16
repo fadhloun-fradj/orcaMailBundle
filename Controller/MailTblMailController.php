@@ -48,7 +48,7 @@ class MailTblMailController extends Controller
             $em->persist($mailTblMail);
             $em->flush();
 
-            return $this->redirectToRoute('mailtblmail_show', array('id' => $mailTblMail->getId()));
+            return $this->redirectToRoute('mailtblmail_show', array('id' => $mailTblMail->getUserId()));
         }
 
         return $this->render('OrcaMailBundle:mailtblmail:new.html.twig', array(
@@ -88,7 +88,7 @@ class MailTblMailController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('mailtblmail_edit', array('id' => $mailTblMail->getId()));
+            return $this->redirectToRoute('mailtblmail_edit', array('id' => $mailTblMail->getUserId()));
         }
 
         return $this->render('OrcaMailBundle:mailtblmail:edit.html.twig', array(
@@ -128,7 +128,7 @@ class MailTblMailController extends Controller
     private function createDeleteForm(MailTblMail $mailTblMail)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('mailtblmail_delete', array('id' => $mailTblMail->getId())))
+            ->setAction($this->generateUrl('mailtblmail_delete', array('id' => $mailTblMail->getUserId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

@@ -22,7 +22,7 @@ class MailService
         $this->regleService = $regleService;
         $this->tblMailService = $tblMailService;
         $this->mailer = $mailer;
-        $this->dir = realpath($dir.'/../web');
+        $this->dir = realpath($dir.'/../public');
         $this->mail_nbr = $container->getParameter('mail_nbr');
     }
 
@@ -48,11 +48,12 @@ class MailService
 //                    var_dump('DATA : '. count($vueDatas));
 
                     foreach($vueDatas as $vueData){
-//                            var_dump('SENDMAIL=>COUNT : '.$count);
+                           var_dump('SENDMAIL=>COUNT : '.$count,$this->mail_nbr);
                             if($count > $this->mail_nbr){
 //                                var_dump('$count > $this->mail_nbr : TRUE');
                                 file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
                                 $ok = false;
+                                var_dump('La valeur de ');
                                 break;
                             }
                             try{
@@ -60,11 +61,14 @@ class MailService
                                     $this->tblMailService->traiteMail($this->mailer, $regle, $vueData, false, '');
                                     $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
                                         'mailRegle'=>$regle,
-                                        'id'=>$vueData['user_id']
+                                        'user_id'=>$vueData['user_id']
                                     ));
+                                    // var_dump($mail);
+                                    
                                     if($mail instanceof MailTblMail && $mail->getCreatedAt()->format('Y-m-d')==date("Y-m-d")){
                                         $count++;
                                     }
+                                    
                                 }
                                 else{
                                     $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,true,'Adress mail invalid');

@@ -2,10 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="//cdn.ckeditor.com/4.5.0/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.5.0/full/ckeditor.js"></script>
     <script type="text/javascript">
-        $(function() {
-            $('textarea.ckeditor').ckeditor();
-        });
     </script>
 {% endblock %}

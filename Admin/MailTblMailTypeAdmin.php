@@ -2,11 +2,13 @@
 
 namespace Orca\MailBundle\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Templating\TemplateRegistry;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MailTblMailTypeAdmin extends AbstractAdmin
 {
@@ -35,7 +37,7 @@ class MailTblMailTypeAdmin extends AbstractAdmin
             ->add('mailTypeActif',null,array(
                 'label'=>'Actif'
             ))
-            ->add('mailTypeBody',null,array(
+            ->add('mailTypeBody',TemplateRegistry::TYPE_HTML,array(
                 'label'=>'Contenu'
             ))
             ->add('_action', null, [
@@ -69,10 +71,10 @@ class MailTblMailTypeAdmin extends AbstractAdmin
             ->add('mailTypeActif',null,array(
                 'label'=>'Actif'
             ))
-            ->add('mailTypeBody','textarea',array(
+            ->add('mailTypeBody',TextareaType::class,array(
                 'label'=>'Contenu',
                 'attr' => array(
-                    'class' => 'ckeditor', // optional
+                    'class' => 'ckeditor', // optional  
                 ),
             ))
         ;
@@ -90,4 +92,28 @@ class MailTblMailTypeAdmin extends AbstractAdmin
             ->add('mailTypeBody')
         ;
     }
+
+    //Setting the template to edit mailtblmailtype.
+    //edit and create configuration to let Textarea::class become a ckeditor type.
+    public function configure()
+    {
+        $this->setTemplate('edit','OrcaMailBundle:CRUD:edit.html.twig');
+    }
+    //deprecated method 
+    // public function getTemplate($name)
+    // {
+    //     switch ($name) {    
+    //         case 'edit':
+    //             return 'OrcaMailBundle:CRUD:edit.html.twig';
+    //             break;
+    //         default:
+    //             return parent::getTemplate($name);
+    //             break;
+    //      }
+    // }
+    
+
+   
+    
+
 }

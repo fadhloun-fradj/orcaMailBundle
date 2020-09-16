@@ -18,8 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('orca_mail')
+        $treeBuilder = new TreeBuilder('orca_mail');
+        $rootNode = $treeBuilder->getRootNode()
                                 ->children()
                                 ->scalarNode('mail_nbr')->defaultValue(Constants::MAIL_NBR_DEFAULT)->info("Nombre de mails par tâche")->end()
                                 ->scalarNode('is_mail_enabled')->isRequired()->defaultValue(Constants::IS_MAIL_DESTINATAIRE_ENABLED_DEFAULT)->info("0 => Pour désactiver, 1 => Pour Activer l'envoie")->end()

@@ -15,11 +15,17 @@ class MailTblMail
     /**
      * @var int
      *
-     * @ORM\Column(name="user_id", type="string",length=64)
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="user_id", type="string",length=64)
+     */
+    private $user_id;
 
     /**
      * @var string
@@ -96,7 +102,6 @@ class MailTblMail
 
     /**
      * @var \Orca\MailBundle\Entity\MailTblRegle
-     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblRegle")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="regle_id", referencedColumnName="regle_id")
@@ -367,13 +372,20 @@ class MailTblMail
     }
 
     /**
-     * @param string $id
+     * @return string
      */
-    public function setId($id)
+    public function getUserId()
     {
-        $this->id = $id;
+        $this->user_id;
+    }
+    /**
+     * @param string $user_id
+     */
+
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
     }
 
 
 }
-

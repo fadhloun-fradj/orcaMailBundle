@@ -2,12 +2,13 @@
 
 namespace Orca\MailBundle\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MailTblVueAdmin extends AbstractAdmin
 {
@@ -57,11 +58,11 @@ class MailTblVueAdmin extends AbstractAdmin
             ->add('vueLib',null,array(
                 'label'=>'Libellé de la requête'
             ))
-            ->add('vueSqlRaw','textarea',array(
+            ->add('vueSqlRaw',TextareaType::class,array(
                 'label'=>'Requête SQL',
                 'attr'=>array('rows'=>'15')
             ))
-            ->add('vuePostSqlRaw','textarea',array(
+            ->add('vuePostSqlRaw',TextareaType::class,array(
                 'label'=>'Requête SQL (post traitement)',
                 'attr'=>array('rows'=>'15')
             ))

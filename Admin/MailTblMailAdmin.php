@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MailTblMailAdmin extends AbstractAdmin
 {
@@ -77,9 +78,9 @@ class MailTblMailAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-//            ->add('mailRegle',null,array(
-//                'label'=>'Regle'
-//            ))
+        //    ->add('mailRegle',null,array(
+        //        'label'=>'Regle'
+        //    ))
 //            ->add('id',null,array(
 //                'label'=>'User'
 //            ))
@@ -101,11 +102,11 @@ class MailTblMailAdmin extends AbstractAdmin
             ->add('mailBcc',null,array(
                 'label'=>'Mail BCC'
             ))
-            ->add('mailBody','textarea',array(
+            ->add('mailBody',TextareaType::class,array(
                 'label'=>'Mail body',
                 'attr'=>array('rows'=>'15')
             ))
-            ->add('mailVueData','textarea',array(
+            ->add('mailVueData',TextareaType::class,array(
                 'label'=>'Mail vue data',
                 'attr'=>array('rows'=>'8')
             ))
