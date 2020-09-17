@@ -20,15 +20,17 @@ La documentation est au niveau du fichier `Resources/doc/index.md` :
 
 - [OrcaFormation](https://github.com/orcaformation)
 
-## Dans le but de pouvoir utiliser le plugin de mail il faut:
-
-1- Cree un fichier orca_mail.yaml au niveau de config/packages/orca_mail.yaml
-2- Ajouter au fichier orca_mail.yaml au niveau les parametres:
-
-orca_mail:
+## orca_mail:
+Ajout du fichier orca_mail.yaml au niveau de config/packages/
     is_mail_enabled: 0
     is_mail_destinataire_enabled: 1
-    mail_destinataire:
+    mail_destinataire: 
     mail_expediteur:
     mail_nbr: 50
     projet:
+
+NB : is_mail_enabled doit être a 0 pour ne pas envoyer de mail réel aux adresses. A la mise à 1 en executant la        commande les mails sont envoyés aux destinataires.
+     is_mail_destinataire doit être a 0 pour que les adresses puissent être affiché en BD. A la mise a les mails seront envoyé au mail_destinataire ou bien MAIL_ADMIN (donotreply@orcagroup.com)
+     mail_destinataire: Mettre le mail destinataire
+     mail_expediteur: Mettre un mail expediteur specifique. Par défaut il prend le MAIL_ADMIN
+     mail_nbr: Nombre de mail a envoye apres chaque execution de commande 

@@ -123,10 +123,6 @@ class TblMailService
             $mail->setMailDestinataire($this->mail_destinataire);
         else // Mail dynamique
             $mail->setMailDestinataire($vueData['destinataire']);
-        // Mail dynamique
-//        $mail->setMailDestinataire($vueData['destinataire']);
-        // Mail Statique
-//        $mail->setMailDestinataire('admin.beneteau@orcaformation.fr');
 
         $objetTags = $type->getObjetTags();
 
