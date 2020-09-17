@@ -37,20 +37,15 @@ class MailService
         {
             file_put_contents($lockFileName, date('Y-m-d H:i:s').' en cours');
             $regles = $this->em->getRepository('OrcaMailBundle:MailTblRegle')->findBy(array('regleActif'=>true));
-//            var_dump('REGLE COUNT : '. count($regles));
-//            var_dump('PARAMS MAIL_NBR : '. $this->mail_nbr);
             foreach($regles as $regle) /** @var MailTblRegle $regle */
             {
-//                var_dump('REGLE : '.$regle->getRegleLib());
                 if($regle->aEnvoye()){
                     $vue = $regle->getVue();
                     $vueDatas = $this->regleService->getVueDatas($vue);
-//                    var_dump('DATA : '. count($vueDatas));
 
                     foreach($vueDatas as $vueData){
                            var_dump('SENDMAIL=>COUNT : '.$count,$this->mail_nbr);
                             if($count > $this->mail_nbr){
-//                                var_dump('$count > $this->mail_nbr : TRUE');
                                 file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
                                 $ok = false;
                                 var_dump('La valeur de ');
@@ -63,7 +58,7 @@ class MailService
                                         'mailRegle'=>$regle,
                                         'user_id'=>$vueData['user_id']
                                     ));
-                                    // var_dump($mail);
+                                
                                     
                                     if($mail instanceof MailTblMail && $mail->getCreatedAt()->format('Y-m-d')==date("Y-m-d")){
                                         $count++;
@@ -86,9 +81,6 @@ class MailService
                         $regle->setRegleDateEnvoi(new \DateTime('now'));
                         $this->createNewEntityManager();
                         $this->em->flush($regle);
-                        //$this->em->close();
-
-                   // }
                 }
 
                 if($count > $this->mail_nbr){

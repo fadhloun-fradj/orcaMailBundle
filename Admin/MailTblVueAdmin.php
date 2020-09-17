@@ -20,7 +20,6 @@ class MailTblVueAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('vueLib')
-//            ->add('vueSqlPropel')
             ->add('vueSqlRaw')
             ->add('vuePostSqlRaw')
         ;
@@ -35,7 +34,7 @@ class MailTblVueAdmin extends AbstractAdmin
             ->add('vueSqlRawLength',null,array(
                 'label'=>'Requête SQL'
             ))
-//            ->add('vueSqlPropel')
+
             ->add('vuePostSqlRaw',null,array(
                 'label'=>'Requête SQL (post traitement)'
             ))
@@ -44,7 +43,6 @@ class MailTblVueAdmin extends AbstractAdmin
                     'showResult' => [
                         'template' => 'OrcaMailBundle:CRUD:list__action_show_result.html.twig'
                     ],
-//                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],
@@ -66,7 +64,6 @@ class MailTblVueAdmin extends AbstractAdmin
                 'label'=>'Requête SQL (post traitement)',
                 'attr'=>array('rows'=>'15')
             ))
-//            ->add('vueSqlPropel')
         ;
     }
 
@@ -79,7 +76,6 @@ class MailTblVueAdmin extends AbstractAdmin
             ->add('vueSqlRaw',null,array(
                 'label'=>'Requête SQL'
             ))
-//            ->add('vueSqlPropel')
             ->add('vuePostSqlRaw',null,array(
                 'label'=>'Requête SQL (post traitement)'
             ))

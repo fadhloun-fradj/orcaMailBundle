@@ -167,8 +167,7 @@ class TblMailService
 
 
         if($save){
-	        $this->createNewEntityManager();
-	        //var_dump($em);		
+	        $this->createNewEntityManager();	
             $this->em->persist($mail);
             $this->em->flush();
             //$this->em->close();

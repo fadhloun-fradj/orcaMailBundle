@@ -50,9 +50,6 @@ class MailTblRegleFrequenceAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-//            ->add('id',null,array(
-//                'label'=>'Regle frequence'
-//            ))
             ->add('regleFrequenceLib',null,array(
                 'label'=>'Regle frequence lib'
             ))

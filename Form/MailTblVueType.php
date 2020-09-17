@@ -27,7 +27,6 @@ class MailTblVueType extends AbstractType
                 'attr'=>array('class'=>'tinymce form-control','rows'=>10),
                 'label'=>'Requête SQL (post traitement)'
             ))
-//            ->add('vueSqlPropel')
         ;
     }/**
      * {@inheritdoc}
