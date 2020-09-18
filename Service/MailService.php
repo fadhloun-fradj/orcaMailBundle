@@ -47,7 +47,6 @@ class MailService
                             if($count > $this->mail_nbr){
                                 file_put_contents($lockFileName, 'Le plugin de mail a été arrêté, si vous voulez continuer l\'envoie des emails merci de supprimer ce fichier');
                                 $ok = false;
-                                var_dump('La valeur de ');
                                 break;
                             }
                             try{

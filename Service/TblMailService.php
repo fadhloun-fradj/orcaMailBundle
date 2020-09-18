@@ -9,6 +9,7 @@ use Orca\MailBundle\Entity\MailTblRegle;
 use Orca\MailBundle\Entity\MailTblVue;
 use Orca\MailBundle\Utils\Constants;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 class TblMailService
 {
@@ -118,7 +119,7 @@ class TblMailService
         $mail->setMailCc($cc);
 
         $mail->setMailBcc($type->getMailTypeBcc());
-
+        
         if($this->is_mail_destinataire_enabled) // Mail Statique
             $mail->setMailDestinataire($this->mail_destinataire);
         else // Mail dynamique
