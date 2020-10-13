@@ -269,7 +269,7 @@ class MailTblMailType
     {
         if($this->_objetTags === null)
         {
-            preg_match_all("#{([^}]*)}#", $this->getMailTypeObjet(), $this->_objetTags);
+            preg_match_all("#{{([^}]*)}}#", $this->getMailTypeObjet(), $this->_objetTags);
         }
         return $this->_objetTags;
     }
@@ -279,7 +279,7 @@ class MailTblMailType
         if($this->_bodyTags === null)
         {
             $matches = null;
-            preg_match_all("#{([^}]*)}#", $this->getMailTypeBody(), $this->_bodyTags);
+            preg_match_all("#{{([^}]*)}}#", $this->getMailTypeBody(), $this->_bodyTags);
         }
         return $this->_bodyTags;
     }

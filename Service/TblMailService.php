@@ -3,14 +3,17 @@ namespace Orca\MailBundle\Service;
 
 
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblMailType;
 use Orca\MailBundle\Entity\MailTblRegle;
 use Orca\MailBundle\Entity\MailTblVue;
+use Orca\MailBundle\Form\MailTblVueType;
 use Orca\MailBundle\Utils\Constants;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\VarDumper\VarDumper;
-
+use Twig\Environment;
 class TblMailService
 {
     private $em;
@@ -20,20 +23,27 @@ class TblMailService
     private $mail_destinataire;
     private $mail_expediteur;
     private $projet;
+    private $save=true;
+    private $templating;
+    private $mailer;
 
-
-    public function __construct(EntityManager $em,$dir,ContainerInterface $container)
+    public function __construct(EntityManager $em,$dir,ContainerInterface $container,Environment $templating,\Swift_Mailer $mailer)
     {
         $this->em = $em;
         $this->dir = realpath($dir.'/../public');
         $this->is_mail_enabled = $container->getParameter('is_mail_enabled');
         $this->is_mail_destinataire_enabled = $container->getParameter('is_mail_destinataire_enabled');
+        $this->is_mail_destinataire_enabled = $container->getParameter('is_mail_destinataire_enabled');
         $this->mail_destinataire = $container->getParameter('mail_destinataire') ? $container->getParameter('mail_destinataire') : Constants::MAIL_ADMIN;
         $this->mail_expediteur = $container->getParameter('mail_expediteur')  ? $container->getParameter('mail_expediteur') : Constants::MAIL_ADMIN;
         $this->projet = $container->getParameter('projet') ? $container->getParameter('projet') : Constants::PROJET;
+        $this->templating = $templating;
+        $this->mailer = $mailer;
+       
     }
 
-    public function traiteMail(\Swift_Mailer $mailer,MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
+    public function traiteMail(MailTblRegle $regle, $vueData,$exception = false,$msgError = ''){
+
         if(!isset($vueData['user_id']))
         {
             throw new \Exception('la vue (r�gle '.$regle->getId().') doit poss�der un champs user_id.');
@@ -46,18 +56,20 @@ class TblMailService
             'mailRegle'=>$regle,
             'user_id'=>$exception?$vueData['user_id'].'_Exception':$vueData['user_id']
         ));
+
         if(!$mail || $regle->getRegleRenvoi()){
 
             if(!$mail)
                 $mail = new MailTblMail();
-            $this->mailTraiteMail($mailer,$mail,$regle,$vueData,$exception,$msgError);
+            $this->mailTraiteMail($mail,$regle,$vueData,$exception,$msgError,false);
         }
     }
 
-    public function mailTraiteMail(\Swift_Mailer $mailer,MailTblMail $mail,MailTblRegle $regle,$vueData,$exception = false,$msgError = ''){
+    public function mailTraiteMail(MailTblMail $mail,MailTblRegle $regle,$vueData,$exception = false,$msgError = ''){
         $this->initMail($mail, $regle, $vueData,$exception);
         if(!$exception)
-            $this->sendMail($mailer,$mail,$vueData);
+            $this->sendMail($mail,$vueData);
+            // $this->SendMailPrototype($mailer,$mail,$vueData,new MailTblMailType());
         else{
 
             $msg = $msgError.' regle : '.$regle->getId().' '.$regle->getRegleLib().', vueData : ';
@@ -79,10 +91,11 @@ class TblMailService
             $message->setSubject('Exception erreur envoi mail ['.$this->projet.']');
 
             if($this->is_mail_enabled)
-                $mailer->send($message);
+                $this->mailer->send($message);
         }
     }
-    public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false,$save = true){
+    public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false){
+
         $type = $regle->getMailType();
         if (!isset($vueData['user_id']))
         {
@@ -135,35 +148,38 @@ class TblMailService
             {
                 throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
             }
-            $replaceObjetTags[] = $vueData[$tag];
+            $replaceObjetTags[$tag] = $vueData[$tag];
         }
 
         //remplacement du body
         $objet = $type->getMailTypeObjet();
-        $objet = str_replace($objetTags[0], $replaceObjetTags, $objet);
-        $mail->setMailObject($objet);
+
+        //$objet = str_replace($objetTags[0], $replaceObjetTags, $objet);
+        $renderer_object = $this->templating->createTemplate($objet);
+        $mail->setMailObject($this->templating->render($renderer_object,$replaceObjetTags));
 
         //remplacement body
         $bodyTags = $type->getBodyTags();
 
         $replaceBodyTags = array();
-        //verif que tous les tags sont disponibles
+        // verif que tous les tags sont disponibles
         foreach ($bodyTags[1] as $tag)
         {
             if (!array_key_exists($tag, $vueData))
             {
                 throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
             }
-            $replaceBodyTags[] = $vueData[$tag];
+            //$replaceBodyTags[] = $vueData[$tag];
+            $replaceBodyTags[$tag] = $vueData[$tag];
         }
-
         //remplacement du body
         $body = $type->getMailTypeBody();
-        $body = str_replace($bodyTags[0], $replaceBodyTags, $body);
-        $mail->setMailBody($body);
+        //$body = str_replace($bodyTags[0], $replaceBodyTags, $body);
+        $renderer = $this->templating->createTemplate($body);
+        $mail->setMailBody($this->templating->render($renderer,$replaceBodyTags)); 
+        //$mail->setMailBody($body);
 
-
-        if($save){
+        if($this->save){
 	        $this->createNewEntityManager();	
             $this->em->persist($mail);
             $this->em->flush();
@@ -172,7 +188,7 @@ class TblMailService
 
     }
 
-    public function sendMail(\Swift_Mailer $mailer,MailTblMail $mail,$vueData){
+    public function sendMail(MailTblMail $mail,$vueData){
 
         $message = new \Swift_Message();
         if (isset($vueData['expediteur']))
@@ -217,16 +233,21 @@ class TblMailService
             }
         }
 
-        if($this->is_mail_enabled)
-            $mailer->send($message);
+        if($this->is_mail_enabled){
+            $this->mailer->send($message);
+        }
+        if($this->save){
+
         $mail->setUpdatedAt(new \DateTime('now'));
         $this->createNewEntityManager();
         $this->em->flush($mail);
+        }
         //$this->em->close();	
+        
 
     }
 
-    public function traiteMailException(\Swift_Mailer $mailer,\Swift_Message $message,MailTblRegle $regle, $vueData){
+    public function traiteMailException(\Swift_Message $message,MailTblRegle $regle, $vueData){
 
         $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
             'mailRegle'=>$regle,
@@ -236,11 +257,11 @@ class TblMailService
 
             if(!$mail)
                 $mail = new MailTblMail();
-            $this->mailTraiteMail($mailer,$mail,$regle,$vueData,true);
+            $this->mailTraiteMail($mail,$regle,$vueData,true);
         }
 
         if($this->is_mail_enabled)
-            $mailer->send($message);
+            $this->mailer->send($message);
     }
     protected function createNewEntityManager() {
 
@@ -249,5 +270,34 @@ class TblMailService
             $this->em->getConfiguration(),
             $this->em->getEventManager()
         ) : $this->em;
+    }
+
+    public function initValueData($vue_data){
+        $vue_data=array_merge($vue_data,["user_id"=>"default".time()]);
+        return $vue_data;
+    }
+
+    public function traiteMailStandalone(MailTblMailType $mail_type,$vue_data,$save=false){
+
+        $this->save=$save;
+        $vue_data = $this->initValueData($vue_data);
+        $mail = new MailTblMail();
+        $qb = $this->em->createQueryBuilder();
+        $mail_regle =  $qb->select("r")
+                    ->from("Orca\MailBundle\Entity\MailTblRegle",'r')
+                    ->where('r.regleLib = :identifier')
+                    ->setParameter('identifier',"Regle defaut")->getQuery()->getOneOrNullResult();  
+
+        /** @var MailTblRegle $mail_regle */
+        if(!$mail_regle){
+            throw new Exception("Veuillez utiliser la regle dont le libelle est: Regle defaut");
+        }
+        $mail_regle->setMailType($mail_type);
+        if($this->save){
+            $this->traiteMail($mail_regle,$vue_data);
+        }
+        else{
+        $this->mailTraiteMail($mail,$mail_regle,$vue_data);
+        }
     }
 }
