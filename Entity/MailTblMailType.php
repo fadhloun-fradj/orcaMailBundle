@@ -260,7 +260,7 @@ class MailTblMailType
     {
         if($this->_ccTags === null)
         {
-            preg_match_all("#{{([^}]*)}}#", $this->getMailTypeCc(), $this->_ccTags);
+            preg_match_all("#{([^}]*)}#", $this->getMailTypeCc(), $this->_ccTags);
         }
         return $this->_ccTags;
     }

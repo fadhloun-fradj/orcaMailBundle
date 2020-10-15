@@ -114,21 +114,31 @@ class TblMailService
         $mail->setMailType($type);
         $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_expediteur);
 
-        $cc = $type->getMailTypeCc();
-        if(!$cc){
-            $cc="";
+        $objetTags = $type->getCcTags();
+
+        $replaceObjetTags = array();
+
+        foreach ($objetTags[1] as $tag){
+
+            if (!array_key_exists($tag, $vueData)){
+
+                throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
+            }
+            $replaceObjetTags[] = $vueData[$tag];
         }
-        $renderer_cc =  $this->templating->createTemplate($cc);
-        $mail->setMailCc($this->templating->render($renderer_cc,$vueData));
+        $cc = $type->getMailTypeCc();
+        $cc = str_replace($objetTags[0],$replaceObjetTags,$cc);
+        $mail->setMailCc($cc);
 
         $mail->setMailBcc($type->getMailTypeBcc());
         
         if($this->is_mail_destinataire_enabled){ // Mail Statique
             $mail->setMailDestinataire($this->mail_destinataire);
         }
-        else{ // Mail dynamique
+        else{// Mail dynamique
             $mail->setMailDestinataire($vueData['destinataire']);
         }
+
         //remplacement du body
         $objet = $type->getMailTypeObjet();
         $renderer_object = $this->templating->createTemplate($objet);
@@ -138,7 +148,7 @@ class TblMailService
         $body = $type->getMailTypeBody();
         $renderer = $this->templating->createTemplate($body);
         $mail->setMailBody($this->templating->render($renderer,$vueData)); 
-        
+
         if($this->save){
 
 	        $this->createNewEntityManager();	
