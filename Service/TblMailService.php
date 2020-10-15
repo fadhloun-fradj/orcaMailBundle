@@ -97,89 +97,50 @@ class TblMailService
     public function initMail(MailTblMail $mail,MailTblRegle $regle, $vueData,$exception = false){
 
         $type = $regle->getMailType();
-        if (!isset($vueData['user_id']))
-        {
+        if (!isset($vueData['user_id'])){
             throw new \Exception('la vue doit poss�der un champs user_id.');
         }
-        if (!isset($vueData['destinataire']))
-        {
+        if (!isset($vueData['destinataire'])){
             throw new \Exception('la vue doit poss�der un champs destinataire.');
         }
-        if($exception)
+        if($exception){
             $mail->setUserId($vueData['user_id'].'_Exception');
-        else
+        }    
+        else{
             $mail->setUserId($vueData['user_id']);
+        }
         $mail->setMailRegle($regle);
         $mail->setMailVueData(json_encode($vueData));
         $mail->setMailType($type);
         $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_expediteur);
 
-        $objetTags = $type->getCcTags();
-
-        $replaceObjetTags = array();
-
-        foreach ($objetTags[1] as $tag)
-        {
-            if (!array_key_exists($tag, $vueData))
-            {
-                throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
-            }
-            $replaceObjetTags[] = $vueData[$tag];
-        }
-
         $cc = $type->getMailTypeCc();
-        $cc = str_replace($objetTags[0],$replaceObjetTags,$cc);
-        $mail->setMailCc($cc);
+        if(!$cc){
+            $cc="";
+        }
+        $renderer_cc =  $this->templating->createTemplate($cc);
+        $mail->setMailCc($this->templating->render($renderer_cc,$vueData));
 
         $mail->setMailBcc($type->getMailTypeBcc());
         
-        if($this->is_mail_destinataire_enabled) // Mail Statique
+        if($this->is_mail_destinataire_enabled){ // Mail Statique
             $mail->setMailDestinataire($this->mail_destinataire);
-        else // Mail dynamique
-            $mail->setMailDestinataire($vueData['destinataire']);
-
-        $objetTags = $type->getObjetTags();
-
-        $replaceObjetTags = array();
-        //verif que tous les tags sont disponibles
-        foreach ($objetTags[1] as $tag)
-        {
-            if (!array_key_exists($tag, $vueData))
-            {
-                throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
-            }
-            $replaceObjetTags[$tag] = $vueData[$tag];
         }
-
+        else{ // Mail dynamique
+            $mail->setMailDestinataire($vueData['destinataire']);
+        }
         //remplacement du body
         $objet = $type->getMailTypeObjet();
-
-        //$objet = str_replace($objetTags[0], $replaceObjetTags, $objet);
         $renderer_object = $this->templating->createTemplate($objet);
-        $mail->setMailObject($this->templating->render($renderer_object,$replaceObjetTags));
+        $mail->setMailObject($this->templating->render($renderer_object,$vueData));
 
-        //remplacement body
-        $bodyTags = $type->getBodyTags();
-
-        $replaceBodyTags = array();
-        // verif que tous les tags sont disponibles
-        foreach ($bodyTags[1] as $tag)
-        {
-            if (!array_key_exists($tag, $vueData))
-            {
-                throw new \Exception('tag ' . $tag . ' non disponible dans la vue.');
-            }
-            //$replaceBodyTags[] = $vueData[$tag];
-            $replaceBodyTags[$tag] = $vueData[$tag];
-        }
         //remplacement du body
         $body = $type->getMailTypeBody();
-        //$body = str_replace($bodyTags[0], $replaceBodyTags, $body);
         $renderer = $this->templating->createTemplate($body);
-        $mail->setMailBody($this->templating->render($renderer,$replaceBodyTags)); 
-        //$mail->setMailBody($body);
-
+        $mail->setMailBody($this->templating->render($renderer,$vueData)); 
+        
         if($this->save){
+
 	        $this->createNewEntityManager();	
             $this->em->persist($mail);
             $this->em->flush();
@@ -191,42 +152,43 @@ class TblMailService
     public function sendMail(MailTblMail $mail,$vueData){
 
         $message = new \Swift_Message();
-        if (isset($vueData['expediteur']))
-        {
+        if (isset($vueData['expediteur'])){
+
             $message->setFrom($vueData['expediteur']);
         }
-        else
-        {
+        else{
+
             $message->setFrom($mail->getMailExpediteur());
         }
         $message->addTo($mail->getMailDestinataire());
 
-        if ($mail->getMailCc())
-        {
-            foreach(explode(';', $mail->getMailCc()) as $cc)
-            {
+        if ($mail->getMailCc()){
+
+            foreach(explode(';', $mail->getMailCc()) as $cc){
+
                 $message->addCc($cc);
             }
         }
-        if ($mail->getMailBcc())
-        {
-            foreach(explode(';', $mail->getMailBcc()) as $bcc)
-            {
+        if ($mail->getMailBcc()){
+
+            foreach(explode(';', $mail->getMailBcc()) as $bcc){
+
                 $message->addBcc($bcc);
             }
         }
         $message->setSubject($mail->getMailObject());
         $message->setBody($mail->getMailBody(), 'text/html');
 
-        for($nbrPj=1;$nbrPj<=10;$nbrPj++)
-        {
+        for($nbrPj=1;$nbrPj<=10;$nbrPj++){
+
             $pj_name = $nbrPj == 1?'pj':'pj'.$nbrPj;
 
-            if (isset($vueData[$pj_name]))
-            {
+            if (isset($vueData[$pj_name])){
+
                 $pj = $this->dir . $vueData[$pj_name];
-                if (file_exists($pj))
-                {
+
+                if (file_exists($pj)){
+
                     $attachement = \Swift_Attachment::fromPath($pj);
                     $message->attach($attachement);
                 }
@@ -234,8 +196,10 @@ class TblMailService
         }
 
         if($this->is_mail_enabled){
+
             $this->mailer->send($message);
         }
+
         if($this->save){
 
         $mail->setUpdatedAt(new \DateTime('now'));
@@ -290,14 +254,20 @@ class TblMailService
 
         /** @var MailTblRegle $mail_regle */
         if(!$mail_regle){
+
             throw new Exception("Veuillez utiliser la regle dont le libelle est: Regle defaut");
         }
+
         $mail_regle->setMailType($mail_type);
         if($this->save){
+
             $this->traiteMail($mail_regle,$vue_data);
         }
+
         else{
+
         $this->mailTraiteMail($mail,$mail_regle,$vue_data);
+
         }
     }
 }

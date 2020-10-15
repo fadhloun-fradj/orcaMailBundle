@@ -97,23 +97,6 @@ class MailTblMailTypeAdmin extends AbstractAdmin
     //edit and create configuration to let Textarea::class become a ckeditor type.
     public function configure()
     {
-        $this->setTemplate('edit','OrcaMailBundle:CRUD:edit.html.twig');
+        $this->setTemplate('edit','@OrcaMail/CRUD/edit.html.twig');
     }
-    //deprecated method 
-    // public function getTemplate($name)
-    // {
-    //     switch ($name) {    
-    //         case 'edit':
-    //             return 'OrcaMailBundle:CRUD:edit.html.twig';
-    //             break;
-    //         default:
-    //             return parent::getTemplate($name);
-    //             break;
-    //      }
-    // }
-    
-
-   
-    
-
 }
