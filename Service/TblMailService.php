@@ -280,4 +280,25 @@ class TblMailService
 
         }
     }
+    public function traiteMailTypeStandalone($mail_type_lib, $vue_data, $store)
+    {
+        if (!isset($vue_data["destinataire"])) {
+            throw new Exception("Veuillez ajouter le destinataire au niveau du tableau");
+        }
+
+        $mail_type = new MailTblMailType();
+        $qb = $this->em->createQueryBuilder();
+        $mail_type = $qb->select("t")
+                    ->from("Orca\MailBundle\Entity\MailTblMailType", 't')
+                    ->where('t.mailTypeLib = :mail_type_lib')
+                    ->setParameter('mail_type_lib', $mail_type_lib)
+                    ->getQuery()
+                    ->getOneOrNullResult();
+         /** @var MailTblMailType $mail_type */
+        if (!$mail_type) {
+            throw new Exception("Le libelle du mailtype est introuvable");
+        }
+
+        $this->traiteMailStandalone($mail_type, $vue_data, $store);
+    }
 }
