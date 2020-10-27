@@ -87,7 +87,10 @@ final class Version20201027152657 extends AbstractMigration
         //Creationd de mail_tbl_mail
         $this->addSql("
         CREATE TABLE `mail_tbl_mail` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `mail_type_id` int(11) DEFAULT NULL,
             `regle_id` int(11) NOT NULL,
+            `user_id` varchar(64) DEFAULT NULL,
             `mail_object` varchar(255) NOT NULL,
             `mail_expediteur` varchar(64) DEFAULT NULL,
             `mail_destinataire` varchar(512) NOT NULL,
@@ -97,9 +100,6 @@ final class Version20201027152657 extends AbstractMigration
             `mail_vue_data` text,
             `created_at` datetime DEFAULT NULL,
             `updated_at` datetime DEFAULT NULL,
-            `mail_type_id` int(11) DEFAULT NULL,
-            `id` int(11) NOT NULL AUTO_INCREMENT,
-            `user_id` varchar(64) DEFAULT NULL,
             PRIMARY KEY (`id`),
             KEY `mail_tbl_mail_FK_1` (`regle_id`),
             KEY `FK_MailType` (`mail_type_id`),
