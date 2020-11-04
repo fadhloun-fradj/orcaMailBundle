@@ -24,35 +24,35 @@ class MailTblRegle
     /**
      * @var string
      *
-     * @ORM\Column(name="regle_lib", type="string", length=64)
+     * @ORM\Column(name="regle_lib", type="string", length=64, nullable=false)
      */
     private $regleLib;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="regle_heure", type="time")
+     * @ORM\Column(name="regle_heure", type="time", nullable=false, options={"default":"00:00:00"})
      */
     private $regleHeure;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="regle_actif", type="boolean")
+     * @ORM\Column(name="regle_actif", type="boolean", nullable=false, options={"default": 0})
      */
     private $regleActif;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="regle_date_envoi", type="datetimetz")
+     * @ORM\Column(name="regle_date_envoi", type="datetime", nullable=false, options={"default": "2009-01-01 00:00:00"})
      */
     private $regleDateEnvoi;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="regle_renvoi", type="boolean")
+     * @ORM\Column(name="regle_renvoi", type="boolean",nullable=false, options={"default": 0})
      */
     private $regleRenvoi;
 
@@ -61,7 +61,7 @@ class MailTblRegle
      *
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblRegleFrequence")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="regle_frequence_id", referencedColumnName="regle_frequence_id")
+     *   @ORM\JoinColumn(name="regle_frequence_id", referencedColumnName="regle_frequence_id",nullable=false)
      * })
      */
     private $regleFrequence;
@@ -71,7 +71,7 @@ class MailTblRegle
      *
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblVue")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="vue_id", referencedColumnName="vue_id")
+     *   @ORM\JoinColumn(name="vue_id", referencedColumnName="vue_id",nullable=false)
      * })
      */
     private $vue;
@@ -81,7 +81,7 @@ class MailTblRegle
      *
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblMailType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mail_type_id", referencedColumnName="mail_type_id")
+     *   @ORM\JoinColumn(name="mail_type_id", referencedColumnName="mail_type_id",nullable=false)
      * })
      */
     private $mailType;

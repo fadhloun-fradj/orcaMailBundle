@@ -52,14 +52,14 @@ class MailTblMailType
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_bcc", type="string", length=5212, nullable=true)
+     * @ORM\Column(name="mail_type_bcc", type="string", length=512, nullable=true)
      */
     private $mailTypeBcc;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="mail_type_actif", type="boolean")
+     * @ORM\Column(name="mail_type_actif", type="boolean",nullable=false,options={"default": 1})
      */
     private $mailTypeActif;
 

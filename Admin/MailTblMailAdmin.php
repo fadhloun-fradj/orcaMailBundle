@@ -14,7 +14,7 @@ class MailTblMailAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
+            ->add('user_id')
             ->add('mailObject')
             ->add('mailExpediteur')
             ->add('mailDestinataire')
@@ -33,7 +33,7 @@ class MailTblMailAdmin extends AbstractAdmin
             ->add('mailRegle',null,array(
                 'label'=>'Regle'
             ))
-            ->add('id',null,array(
+            ->add('user_id',null,array(
                 'label'=>'User'
             ))
             ->add('mailType',null,array(
@@ -122,7 +122,7 @@ class MailTblMailAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
+            ->add('user_id')
             ->add('mailObject')
             ->add('mailExpediteur')
             ->add('mailDestinataire')
