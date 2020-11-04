@@ -60,3 +60,29 @@ Merci de saisir un mail d'admin pour recevoir les emails des exceptions/ + le no
     const PROJET = 'BENETEAU R7';
 
 ```
+
+### Process d'envoi de mail avec la commande app:SendMail
+
+Le Plugin de mail permet d'ordonner et d'automatiser l'envoi de mail à travers des règles, des types de mail ainsi que des vues.
+
+Dans le but d'utiliser le plugin de mail il faut passer par un ensemble d'étapes:
+
+1. Création d'un type de mail dans Mail Type avec wysiwyg ayant des tags au milieu de deux accolades {{}} comme par exemple: {{user_prenom}}
+2. Création d'une vue dans (Mail Vue de données) comportant les requêtes SQL qui ont pour but d'alimenter les tags se trouvant dans le corps du mail
+3. Création d'une règle via Mail Regle se fait ainsi: 
+ * La règle devra être lié à la vue
+ * La règle devra être lié au type de mail
+ * La règle aura une fréquence d'envoi (immédiat,Tous les jours, Toutes les heures, Toutes les semaines)
+ * La case "Regle Actif" devra être cocher dans le but qu'elle soit éxecuter
+
+Par la suite nous pouvons utiliser la commande app:SendMail qui va executer les règles actives et donc envoyer le mail.
+
+### Fonctinnalité d'envoie de mail StandAlone
+
+Cette fonctionnalité permet d'envoyer des mails sans utiliser app:SendMail mais en utilisant tout simplement un service au sein du Plugin et pour cela il faut:
+
+* Faire appel au service TblMailService se trouvant dans le plugin traiteMailTypeStandalone($mail_type_lib,$vue_data,$store)
+* $mail_type_libelle (string): est le libellé u mail_type crée en base de donnée
+* $vue_data[] (array): ce sont les différents tags se trouvant au niveau du body du type (mentionner le destinataire au niveau de la vue_data est obligatoire)
+* $store (boolean): permet de stocker les informations du mail en base de donnée ou non Cette nouvelle fonctionnalité offre plus de flexibilité pour l'envoie de mail  tout en utilisant les différents composants du plugin de mail
+

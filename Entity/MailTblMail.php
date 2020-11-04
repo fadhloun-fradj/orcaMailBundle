@@ -21,9 +21,9 @@ class MailTblMail
      */
     private $id;
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="user_id", type="string",length=64)
+     * @ORM\Column(name="user_id", type="string",length=64,nullable=true)
      */
     private $user_id;
 
@@ -79,14 +79,14 @@ class MailTblMail
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetimetz", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetimetz", nullable=true)
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -104,7 +104,7 @@ class MailTblMail
      * @var \Orca\MailBundle\Entity\MailTblRegle
      * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblRegle")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="regle_id", referencedColumnName="regle_id")
+     *   @ORM\JoinColumn(name="regle_id", referencedColumnName="regle_id",nullable=false)
      * })
      */
     private $mailRegle;
@@ -376,7 +376,7 @@ class MailTblMail
      */
     public function getUserId()
     {
-        $this->user_id;
+        return $this->user_id;
     }
     /**
      * @param string $user_id

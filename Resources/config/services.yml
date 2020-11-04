@@ -45,8 +45,9 @@ services:
 
     app.tbl_mail_service:
         class: Orca\MailBundle\Service\TblMailService
-        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%",'@service_container']
+        arguments: ["@doctrine.orm.entity_manager","%kernel.root_dir%",'@service_container','@twig','@mailer']
         public: true
+        autowire: true
 
     app.mail_service:
         class: Orca\MailBundle\Service\MailService

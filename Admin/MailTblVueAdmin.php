@@ -40,9 +40,10 @@ class MailTblVueAdmin extends AbstractAdmin
             ))
             ->add('_action', null, [
                 'actions' => [
-                    'showResult' => [
-                        'template' => 'OrcaMailBundle:CRUD:list__action_show_result.html.twig'
-                    ],
+                    // 'showResult' => [
+                    //     'template' => '@OrcaMail/CRUD/list__action_show_result.html.twig'
+                    // ],
+                    'show'=>[],
                     'edit' => [],
                     'delete' => [],
                 ],

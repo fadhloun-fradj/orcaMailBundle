@@ -52,14 +52,14 @@ class MailTblMailType
     /**
      * @var string
      *
-     * @ORM\Column(name="mail_type_bcc", type="string", length=5212, nullable=true)
+     * @ORM\Column(name="mail_type_bcc", type="string", length=512, nullable=true)
      */
     private $mailTypeBcc;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="mail_type_actif", type="boolean")
+     * @ORM\Column(name="mail_type_actif", type="boolean",nullable=false,options={"default": 1})
      */
     private $mailTypeActif;
 
@@ -269,7 +269,7 @@ class MailTblMailType
     {
         if($this->_objetTags === null)
         {
-            preg_match_all("#{([^}]*)}#", $this->getMailTypeObjet(), $this->_objetTags);
+            preg_match_all("#{{([^}]*)}}#", $this->getMailTypeObjet(), $this->_objetTags);
         }
         return $this->_objetTags;
     }
@@ -279,7 +279,7 @@ class MailTblMailType
         if($this->_bodyTags === null)
         {
             $matches = null;
-            preg_match_all("#{([^}]*)}#", $this->getMailTypeBody(), $this->_bodyTags);
+            preg_match_all("#{{([^}]*)}}#", $this->getMailTypeBody(), $this->_bodyTags);
         }
         return $this->_bodyTags;
     }

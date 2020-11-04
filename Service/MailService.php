@@ -51,7 +51,7 @@ class MailService
                             }
                             try{
                                 if(filter_var($vueData['destinataire'],FILTER_VALIDATE_EMAIL)) {
-                                    $this->tblMailService->traiteMail($this->mailer, $regle, $vueData, false, '');
+                                    $this->tblMailService->traiteMail($regle, $vueData, false, '');
                                     $mail = $this->em->getRepository('OrcaMailBundle:MailTblMail')->findOneBy(array(
                                         'mailRegle'=>$regle,
                                         'user_id'=>$vueData['user_id']
@@ -64,11 +64,11 @@ class MailService
                                     
                                 }
                                 else{
-                                    $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,true,'Adress mail invalid');
+                                    $this->tblMailService->traiteMail($regle,$vueData,true,'Adress mail invalid');
                                 }
                             }
                             catch(\Exception $e){
-                                $this->tblMailService->traiteMail($this->mailer,$regle,$vueData,true,$e->getMessage());
+                                $this->tblMailService->traiteMail($regle,$vueData,true,$e->getMessage());
                             }
 
 
@@ -99,6 +99,5 @@ class MailService
 	        $this->em->getConfiguration(),
 	        $this->em->getEventManager()
 	    ) : $this->em;
-	}
-
+    }
 }
