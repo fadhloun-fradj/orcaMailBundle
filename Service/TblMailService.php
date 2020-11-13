@@ -4,6 +4,7 @@ namespace Orca\MailBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Exception;
+use Knp\Menu\Renderer\Renderer;
 use Orca\MailBundle\Entity\MailTblMail;
 use Orca\MailBundle\Entity\MailTblMailType;
 use Orca\MailBundle\Entity\MailTblRegle;
@@ -12,6 +13,7 @@ use Orca\MailBundle\Form\MailTblVueType;
 use Orca\MailBundle\Utils\Constants;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\TodoSniff;
 use Psr\Container\ContainerInterface;
+use stdClass;
 use Symfony\Component\VarDumper\VarDumper;
 use Twig\Environment;
 class TblMailService
@@ -147,7 +149,17 @@ class TblMailService
         //remplacement du body
         $body = $type->getMailTypeBody();
         $renderer = $this->templating->createTemplate($body);
-        $mail->setMailBody($this->templating->render($renderer,$vueData)); 
+        foreach($vueData as $value){
+            $obj = json_decode($value);
+           if($obj!=null && is_object($obj)){
+            $class = $obj->type;
+            $class_rep = str_replace('/', '\\', $class);
+            $object = $this->em->getRepository($class_rep)->find($obj->id);
+            $key = array_search($value,$vueData);
+            $vueData = array_merge($vueData,[$key=>$object]);
+           }
+        }
+        $mail->setMailBody($this->templating->render($renderer,$vueData));
 
         if($this->save){
 
