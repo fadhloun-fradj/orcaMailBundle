@@ -14,7 +14,7 @@ Ce bundle à pour gérer :
 
 La documentation est au niveau du fichier `Resources/doc/index.md` :
 
-[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/tree/master/Resources/doc/index.md)
+[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/blob/release/symfony4/Resources/doc/index.md)
 
 ## Credits
 
@@ -34,3 +34,8 @@ NB : is_mail_enabled doit être a 0 pour ne pas envoyer de mail réel aux adress
      mail_destinataire: Mettre le mail destinataire
      mail_expediteur: Mettre un mail expediteur specifique. Par défaut il prend le MAIL_ADMIN
      mail_nbr: Nombre de mail a envoye apres chaque execution de commande 
+
+## Envoi d'objet:
+Cette fonctionnalité se trouve au niveau de la branche https://github.com/orcaformation/orcaMailBundle/tree/release/symfony4_1.0.3.
+
+[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/blob/release/symfony4_1.0.3/Resources/doc/index.md)
