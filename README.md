@@ -38,4 +38,4 @@ NB : is_mail_enabled doit être a 0 pour ne pas envoyer de mail réel aux adress
 ## Envoi d'objet:
 Cette fonctionnalité se trouve au niveau de la branche https://github.com/orcaformation/orcaMailBundle/tree/release/symfony4_1.0.3.
 
-[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/blob/release/symfony4_1.0.3/Resources/doc/index.md)
+Lien vers la documentation: [Lire la documentation](https://github.com/orcaformation/orcaMailBundle/blob/release/symfony4_1.0.3/Resources/doc/index.md)
