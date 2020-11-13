@@ -92,14 +92,14 @@ Cette fonctionnalité permet d'utiliser la puissance de twig en envoyant des obj
 
 Dans le but d'utiliser cette fonctionnalité il faut:
 
-1. Tout d'abord créer une vue dont la requête disposera de chaîne de caractère sous format json {"id":valeur_id, "type":"valeur_classe"} AS nom_du_tag (exemple {"id":4,"type":"App/Entity/nom_classe"})
+1. Tout d'abord créer une vue dont la requête disposera de chaîne de caractère sous format json {"id":valeur_id, "type":"valeur_classe"} AS nom_du_tag (exemple {"id":4,"type":"App/Entity/nom_classe"} AS nom_du_tag)
 * id: représente l'id de l'objet que l'on souhaite avoir
 * type: représente la classe de l'objet tout en donnant le path de ce dernier
 * Exemple de requête: SELECT user_id,'{"id":21235,"type":"App/Entity/nom_classe_user"}' AS user1,'{"id":34,"type":"App/Entity/nom_classe_document"}' AS document,'destinataire@teamwillgroup.com' AS destinataire FROM table_user etc
 
 2. Après avoir créer la vue comportant la requête souhaité nous devons créer un type qui permettra de consommer les données rapporté par la vue
-* Dans le but d'appeler l'objet php il suffit de mettre dans le template de mail {{nom_du_tag.attribut_de_classe}} (exemple: {{user1.userNom}} )
-3. Créer la régle qui utiliser le type ainsi que la vue
+* Dans le but d'appeler l'objet php il suffit de mettre dans le template de mail {{nom_du_tag.attribut_de_classe}} (exemple: {{user1.userNom}})
+3. Créer la régle qui utilise le type ainsi que la vue
 4. Lancer la commande app: Send en utilisant:
 
  ```bash
