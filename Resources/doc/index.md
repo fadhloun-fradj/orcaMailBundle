@@ -86,3 +86,24 @@ Cette fonctionnalité permet d'envoyer des mails sans utiliser app:SendMail mais
 * $vue_data[] (array): ce sont les différents tags se trouvant au niveau du body du type (mentionner le destinataire au niveau de la vue_data est obligatoire)
 * $store (boolean): permet de stocker les informations du mail en base de donnée ou non Cette nouvelle fonctionnalité offre plus de flexibilité pour l'envoie de mail  tout en utilisant les différents composants du plugin de mail
 
+### Fonctinnalité d'envoie d'objet php au mail type:
+
+Cette fonctionnalité permet d'utiliser la puissance de twig en envoyant des objets php au niveau du template de mail venant de la vue en utilisant la command app:SendMail.
+
+Dans le but d'utiliser cette fonctionnalité il faut:
+
+1. Tout d'abord créer une vue dont la requête disposera de chaîne de caractère sous format json {"id":valeur_id, "type":"valeur_classe"} AS nom_du_tag (exemple {"id":4,"type":"App/Entity/nom_classe"})
+* id: représente l'id de l'objet que l'on souhaite avoir
+* type: représente la classe de l'objet tout en donnant le path de ce dernier
+* Exemple de requête: SELECT user_id,'{"id":21235,"type":"App/Entity/nom_classe_user"}' AS user1,'{"id":34,"type":"App/Entity/nom_classe_document"}' AS document,'destinataire@teamwillgroup.com' AS destinataire FROM table_user etc
+
+2. Après avoir créer la vue comportant la requête souhaité nous devons créer un type qui permettra de consommer les données rapporté par la vue
+* Dans le but d'appeler l'objet php il suffit de mettre dans le template de mail {{nom_du_tag.attribut_de_classe}} (exemple: {{user1.userNom}} )
+3. Créer la régle qui utiliser le type ainsi que la vue
+4. Lancer la commande app: Send en utilisant:
+
+ ```bash
+    php bin/console app:SendMail
+ ```
+
+

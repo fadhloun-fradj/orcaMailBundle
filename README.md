@@ -14,7 +14,7 @@ Ce bundle à pour gérer :
 
 La documentation est au niveau du fichier `Resources/doc/index.md` :
 
-[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/tree/master/Resources/doc/index.md)
+[Lire la documentation](https://github.com/orcaformation/orcaMailBundle/blob/release/symfony4_1.0.3/Resources/doc/index.md)
 
 ## Credits
 
@@ -34,3 +34,6 @@ NB : is_mail_enabled doit être a 0 pour ne pas envoyer de mail réel aux adress
      mail_destinataire: Mettre le mail destinataire
      mail_expediteur: Mettre un mail expediteur specifique. Par défaut il prend le MAIL_ADMIN
      mail_nbr: Nombre de mail a envoye apres chaque execution de commande 
+
+## Envoi d'objets:
+Dans cette branche nous avons rajouté la fonctionnalité d'utilisation d'objet php dans le mail type et cela afin d'utiliser la puissance de twig dont la migration du plugin de mail vers symfony 4 bénéficie.
