@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Mailtblregle controller.
  *
- * @Route("mailtblregle")
+ * @Route("MKZQWDTZHBBRGALA")
  */
 class MailTblRegleController extends Controller
 {
@@ -25,10 +25,10 @@ class MailTblRegleController extends Controller
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $regle = $em->getRepository('OrcaMailBundle:MailTblRegle')->find($id);
-        $conn = $em->getConnection();
-        $statement = $conn->prepare($regle->getVue()->getVueSqlRaw());
-        $statement->execute();
-        $datas = $statement->fetchAll();
+        // $conn = $em->getConnection();
+        // $statement = $conn->prepare($regle->getVue()->getVueSqlRaw());
+        // $statement->execute();
+        $datas =[];
 
         $mailPreview = new MailTblMail();
         $mailPreview->setMailRegle($regle);
