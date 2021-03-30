@@ -212,9 +212,19 @@ class TblMailService
 
             if (isset($vueData[$pj_name]))
             {
-                $pj = $this->dir . $vueData[$pj_name];
-                if (file_exists($pj))
-                {
+                $pj = null;
+                if(filter_var(filter_var($vueData[$pj_name],FILTER_VALIDATE_URL))){
+                    $pj = $vueData[$pj_name];
+
+                }
+                else{
+                    $pj1 = $this->dir . $vueData[$pj_name];
+                    if (file_exists($pj1))
+                    {
+                        $pj = $pj1;
+                    }
+                }
+                if(!empty($pj)){
                     $attachement = \Swift_Attachment::fromPath($pj);
                     $message->attach($attachement);
                 }
