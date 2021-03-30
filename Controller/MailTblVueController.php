@@ -10,22 +10,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Mailtblvue controller.
  *
- * @Route("mailtblvue")
+ * @Route("MKZQWDTZHBBRGALA")
  */
 class MailTblVueController extends Controller
 {
     /**
-     * @Route("/getResultSQL", name="getResultSQL")
+     * @Route("/PKGHZUDEONITBMXD", name="getResultSQL")
      */
     public function getResultSqlAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $query = $request->get('sql');
-        $conn = $em->getConnection();
-        $statement = $conn->prepare($query);
-        $statement->execute();
-        $results = $statement->fetchAll();
+        // $conn = $em->getConnection();
+        // $statement = $conn->prepare($query);
+        // $statement->execute();
+        // $results = $statement->fetchAll();
         return $this->render('OrcaMailBundle:mailtblvue:result_query_sql.html.twig', array(
-            'results' => $results,
+            'results' => [],
             'sql' => $query,
         ));
     }
@@ -33,7 +33,7 @@ class MailTblVueController extends Controller
     /**
      * Lists all mailTblVue entities.
      *
-     * @Route("/", name="mailtblvue_index")
+     * @Route("/SRRERVHHLDDPRXPN", name="mailtblvue_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -50,7 +50,7 @@ class MailTblVueController extends Controller
     /**
      * Creates a new mailTblVue entity.
      *
-     * @Route("/new", name="mailtblvue_new")
+     * @Route("/WDCSOLOFJRCGJUAB", name="mailtblvue_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -76,7 +76,7 @@ class MailTblVueController extends Controller
     /**
      * Finds and displays a mailTblVue entity.
      *
-     * @Route("/{id}", name="mailtblvue_show")
+     * @Route("/EAUYWZTDVLSUUWBM/{id}", name="mailtblvue_show")
      * @Method("GET")
      */
     public function showAction(MailTblVue $mailTblVue)
@@ -92,7 +92,7 @@ class MailTblVueController extends Controller
     /**
      * Displays a form to edit an existing mailTblVue entity.
      *
-     * @Route("/{id}/edit", name="mailtblvue_edit")
+     * @Route("/NPJCGSIYMXUNJKEL/{id}/edit", name="mailtblvue_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, MailTblVue $mailTblVue)
@@ -117,7 +117,7 @@ class MailTblVueController extends Controller
     /**
      * Deletes a mailTblVue entity.
      *
-     * @Route("/{id}", name="mailtblvue_delete")
+     * @Route("/YSUAEMMVWWWOCLTY/{id}", name="mailtblvue_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, MailTblVue $mailTblVue)

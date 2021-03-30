@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Mailtblregle controller.
  *
- * @Route("MKZQWDTZHBBRGALA")
+ * @Route("mailtblregle")
  */
 class MailTblRegleController extends Controller
 {
