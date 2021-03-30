@@ -205,6 +205,7 @@ class TblMailService
         }
         $message->setSubject($mail->getMailObject());
         $message->setBody($mail->getMailBody(), 'text/html');
+        dump('hello');
 
         for($nbrPj=1;$nbrPj<=10;$nbrPj++)
         {
@@ -212,9 +213,22 @@ class TblMailService
 
             if (isset($vueData[$pj_name]))
             {
-                $pj = $this->dir . $vueData[$pj_name];
-                if (file_exists($pj))
-                {
+                dump($vueData[$pj_name]);
+                $pj = null;
+                if(filter_var(filter_var($vueData[$pj_name],FILTER_VALIDATE_URL))){
+                    dump('he passed the url test');
+                    $pj = $vueData[$pj_name];
+
+                }
+                else{
+                    dump('he did not pass the url test');
+                    $pj1 = $this->dir . $vueData[$pj_name];
+                    if (file_exists($pj1))
+                    {
+                        $pj = $pj1;
+                    }
+                }
+                if(!empty($pj)){
                     $attachement = \Swift_Attachment::fromPath($pj);
                     $message->attach($attachement);
                 }
