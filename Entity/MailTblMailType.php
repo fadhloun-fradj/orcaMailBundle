@@ -73,6 +73,7 @@ class MailTblMailType
     private $_bodyTags = null;
     private $_objetTags = null;
     private $_ccTags = null;
+    private $_bccTags = null;
 
     public function __toString(){
         return $this->getMailTypeLib();
@@ -263,6 +264,15 @@ class MailTblMailType
             preg_match_all("#{([^}]*)}#", $this->getMailTypeCc(), $this->_ccTags);
         }
         return $this->_ccTags;
+    }
+
+    public function getBccTags()
+    {
+        if($this->_bccTags === null)
+        {
+            preg_match_all("#{([^}]*)}#", $this->getMailTypeBcc(), $this->_bccTags);
+        }
+        return $this->_bccTags;
     }
 
     public function getObjetTags()
