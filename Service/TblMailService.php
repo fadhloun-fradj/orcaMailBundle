@@ -101,8 +101,10 @@ class TblMailService
         $mail->setMailExpediteur($type->getMailTypeExpediteur() ? $type->getMailTypeExpediteur() : $this->mail_expediteur);
 
         $objetTags = $type->getCcTags();
-
+        $objetTagsBcc = $type->getBccTags();
+        
         $replaceObjetTags = array();
+        $replaceObjetTagsBcc = array();
 
         foreach ($objetTags[1] as $tag)
         {
@@ -113,11 +115,22 @@ class TblMailService
             $replaceObjetTags[] = $vueData[$tag];
         }
 
+        foreach ($objetTagsBcc[1] as $tagbcc)
+        {
+            if (!array_key_exists($tagbcc, $vueData))
+            {
+                throw new \Exception('tag ' . $tagbcc . ' non disponible dans la vue.');
+            }
+            $replaceObjetTagsBcc[] = $vueData[$tagbcc];
+        }
+
         $cc = $type->getMailTypeCc();
         $cc = str_replace($objetTags[0],$replaceObjetTags,$cc);
         $mail->setMailCc($cc);
 
-        $mail->setMailBcc($type->getMailTypeBcc());
+        $bcc = $type->getMailTypeBcc();
+        $bcc = str_replace($objetTagsBcc[0], $replaceObjetTagsBcc, $bcc);
+        $mail->setMailBcc($bcc);
 
         if($this->is_mail_destinataire_enabled) // Mail Statique
             $mail->setMailDestinataire($this->mail_destinataire);
