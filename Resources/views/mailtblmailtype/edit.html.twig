@@ -7,6 +7,23 @@
 {% block contentListe %}
     {#<h1>Mailtblmailtype edit</h1>#}
 
+    <div class="col-md-12">
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger" style="width: 250px;margin: 0 auto 10px auto;">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success" style="width: 250px;margin: 0 auto 10px auto;">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('info') %}
+            <div class="alert alert-info" style="width: 250px;margin: 0 auto 10px auto;">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    </div>
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
 
