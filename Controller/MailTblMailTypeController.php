@@ -48,8 +48,9 @@ class MailTblMailTypeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($mailTblMailType);
             $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Mail type a été ajouté avec succès !');
 
-            return $this->redirectToRoute('mailtblmailtype_show', array('id' => $mailTblMailType->getId()));
+            return $this->redirectToRoute('mailtblmailtype_index');
         }
 
         return $this->render('OrcaMailBundle:mailtblmailtype:new.html.twig', array(
@@ -88,6 +89,7 @@ class MailTblMailTypeController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Mail type a été modifié avec succès !');
 
             return $this->redirectToRoute('mailtblmailtype_edit', array('id' => $mailTblMailType->getId()));
         }
@@ -102,20 +104,22 @@ class MailTblMailTypeController extends Controller
     /**
      * Deletes a mailTblMailType entity.
      *
-     * @Route("/{id}", name="mailtblmailtype_delete")
-     * @Method("DELETE")
+     * @Route("/deleted/{id}", name="mailtblmailtype_delete")
      */
     public function deleteAction(Request $request, MailTblMailType $mailTblMailType)
     {
         $form = $this->createDeleteForm($mailTblMailType);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($mailTblMailType);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        if ($mailTblMailType->getMailTypeActif()){
+            $this->get('session')->getFlashBag()->add('error', 'Imposible de supprimer, veuillez désactiver le mail type, et réessayer !');
+        
+            return $this->redirectToRoute('mailtblmailtype_index');
         }
-
+        $em->remove($mailTblMailType);
+        $em->flush();
+        $this->get('session')->getFlashBag()->add('success', 'Mail type a été supprimé avec succès !');
+    
         return $this->redirectToRoute('mailtblmailtype_index');
     }
 

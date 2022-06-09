@@ -6,7 +6,21 @@
 {% block colListeNumber %}col-md-12{% endblock %}
 {% block contentListe %}
     {#<h1>Mailtblmailtypes list</h1>#}
-
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger" style="width: 250px;margin: 0 auto 10px auto;">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success" style="width: 250px;margin: 0 auto 10px auto;">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('info') %}
+        <div class="alert alert-info" style="width: 250px;margin: 0 auto 10px auto;">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     <table class="table">
         <thead>
             <tr>
@@ -34,7 +48,7 @@
                 <td>{{ mailTblMailType.mailTypeBody|raw }}</td>
                 <td>
                     <a href="{{ path('mailtblmailtype_edit', { 'id': mailTblMailType.id }) }}"><i class="fa fa-pencil"></i> Modifier</a><br>
-                    <a href="#"><i class="fa fa-remove red"></i> Supprimer</a>
+                    <a href="{{path('mailtblmailtype_delete', { 'id': mailTblMailType.id })}}"><i class="fa fa-remove red"></i> Supprimer</a>
                 </td>
             </tr>
         {% endfor %}
