@@ -112,7 +112,7 @@ class MailTblMailTypeController extends Controller
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
         if ($mailTblMailType->getMailTypeActif()){
-            $this->get('session')->getFlashBag()->add('error', 'Imposible de supprimer, veuillez désactiver le mail type, et réessayer !');
+            $this->get('session')->getFlashBag()->add('error', 'Impossible de supprimer, veuillez d\'abord désactiver le mail type et réessayer !');
         
             return $this->redirectToRoute('mailtblmailtype_index');
         }

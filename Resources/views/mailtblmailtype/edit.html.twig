@@ -9,17 +9,17 @@
 
     <div class="col-md-12">
         {% for flashMessage in app.session.flashbag.get('error') %}
-            <div class="alert alert-danger" style="width: 250px;margin: 0 auto 10px auto;">
+            <div class="alert alert-danger" style="margin: 0 auto 10px auto;">
                 {{ flashMessage }}
             </div>
         {% endfor %}
         {% for flashMessage in app.session.flashbag.get('success') %}
-            <div class="alert alert-success" style="width: 250px;margin: 0 auto 10px auto;">
+            <div class="alert alert-success" style="margin: 0 auto 10px auto;">
                 {{ flashMessage }}
             </div>
         {% endfor %}
         {% for flashMessage in app.session.flashbag.get('info') %}
-            <div class="alert alert-info" style="width: 250px;margin: 0 auto 10px auto;">
+            <div class="alert alert-info" style="margin: 0 auto 10px auto;">
                 {{ flashMessage }}
             </div>
         {% endfor %}
