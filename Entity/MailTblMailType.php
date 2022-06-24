@@ -70,6 +70,11 @@ class MailTblMailType
      */
     private $mailTypeBody;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Orca\MailBundle\Entity\MailTblRegle", mappedBy="mailType", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $mailRegles;
+
     private $_bodyTags = null;
     private $_objetTags = null;
     private $_ccTags = null;
@@ -292,6 +297,12 @@ class MailTblMailType
             preg_match_all("#{([^}]*)}#", $this->getMailTypeBody(), $this->_bodyTags);
         }
         return $this->_bodyTags;
+    }
+    
+    public function removeMailRegle(MailTblRegle $mailRegle)
+    {
+        $this->mailRegles->remove($mailRegle);
+        $mailRegle->setMailType(null);
     }
 }
 
