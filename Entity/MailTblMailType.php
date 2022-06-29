@@ -69,6 +69,11 @@ class MailTblMailType
      * @ORM\Column(name="mail_type_body", type="text", nullable=true)
      */
     private $mailTypeBody;
+    
+    /**
+    * @ORM\OneToMany(targetEntity="Orca\MailBundle\Entity\MailTblMail", mappedBy="mailType", cascade={"persist", "remove"}, orphanRemoval=true)
+    */
+    private $mailTblMails;
 
     /**
      * @ORM\OneToMany(targetEntity="Orca\MailBundle\Entity\MailTblRegle", mappedBy="mailType", cascade={"persist", "remove"}, orphanRemoval=true)
@@ -303,6 +308,12 @@ class MailTblMailType
     {
         $this->mailRegles->remove($mailRegle);
         $mailRegle->setMailType(null);
+    }
+
+    public function removeMailTblMail(MailTblMail $mailTblMail)
+    {
+        $this->mailTblMails->remove($mailTblMail);
+        $mailTblMail->setMailType(null);
     }
 }
 

@@ -87,7 +87,7 @@ class MailTblMail
     /**
      * @var \Orca\MailBundle\Entity\MailTblMailType
      *
-     * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblMailType")
+     * @ORM\ManyToOne(targetEntity="Orca\MailBundle\Entity\MailTblMailType", inversedBy="mailTblMails")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="mail_type_id", referencedColumnName="mail_type_id")
      * })
